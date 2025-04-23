@@ -24,10 +24,10 @@ include_directories(
 
 # Add executable
 add_executable(user-management src/main.cpp
-        src/config_loader/ConfigLoader.cpp
-        src/config_loader/ConfigLoader.h
         src/database/MySQLConnection.cpp
-        src/database/MySQLConnection.h)
+        src/database/MySQLConnection.h
+        src/database-config/DatabaseConfig.cpp
+        src/database-config/DatabaseConfig.h)
 
 # Find the X DevAPI library
 find_library(MYSQLCPPCONNX_LIBRARY
@@ -38,10 +38,10 @@ find_library(MYSQLCPPCONNX_LIBRARY
 message(STATUS "MySQL X DevAPI Library: ${MYSQLCPPCONNX_LIBRARY}")
 
 # If library not found with find_library, use direct path
-if(NOT MYSQLCPPCONNX_LIBRARY)
+if (NOT MYSQLCPPCONNX_LIBRARY)
     set(MYSQLCPPCONNX_LIBRARY "${MYSQL_CONNECTOR_DIR}/lib/libmysqlcppconnx.dylib")
     message(STATUS "Using direct path to library: ${MYSQLCPPCONNX_LIBRARY}")
-endif()
+endif ()
 
 # Link with the library
 target_link_libraries(user-management ${MYSQLCPPCONNX_LIBRARY})

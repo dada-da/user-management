@@ -1,27 +1,33 @@
 #include <iostream>
 #include <mysqlx/xdevapi.h>
 
-using namespace std;
+#include "database-config/DatabaseConfig.h"
+
 using namespace mysqlx;
 
 int main() {
+    DatabaseConfig config;
+
+    config.getDatabaseConfig();
+
+    std::cout << config.getConnectionString() << std::endl;
+
     try {
-        Session sess("mysqlx://user:password@localhost:33060/database");
+        const std::string connStr = config.getConnectionString();
+        mysqlx::Session session(connStr);
 
-        // Get a schema
-        Schema db = sess.getSchema("database");
+        std::cout << "Connected to MySQL server using X Protocol" << std::endl;
 
-        // Execute a query
-        RowResult res = sess.sql("SELECT * FROM users LIMIT 5").execute();
-
-        // Print results
-        for (Row row : res.fetchAll()) {
-            cout << "ID: " << row[0] << ", Name: " << row[1] << endl;
-        }
-    }
-    catch (const Error &err) {
-        cout << "Error: " << err.what() << endl;
-        return 1;
+        // Now you can use the session to execute queries
+        // mysqlx::Schema db = session.getSchema(dbName);
+        // auto collection = db.getCollection("your_collection");
+        // etc.
+    } catch (const mysqlx::Error &err) {
+        std::cerr << "Error connecting to database: " << err.what() << std::endl;
+    } catch (std::exception &ex) {
+        std::cerr << "STD exception: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown exception" << std::endl;
     }
 
     return 0;

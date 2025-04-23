@@ -29,8 +29,6 @@ account-management/
 │
 ├── CMakeLists.txt           # Main CMake configuration
 │
-├── include/                 # Header files
-│
 ├── src/                     # Ssource files
 │
 ├── extern/                  # External dependencies
@@ -42,7 +40,4 @@ account-management/
 │
 ├── downloads/               # Where MySQL Connector gets downloaded
 │
-└── scripts/                 # Setup scripts
-    ├── setup_mysql_connector_macos.sh
-    └── setup_mysql_connector_windows.bat
 ```
