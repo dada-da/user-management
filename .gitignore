@@ -43,19 +43,6 @@
 /cmake-build-debug
 /.idea
 
-# Downloaded files
-downloads/
-
-#library folder
-extern/**/*.h
-
-#database config
-config/*
-
 # OS specific files
 .DS_Store
 Thumbs.db
-
-#database-config example and README
-!config/database-example.conf
-!config/README.md

@@ -20,7 +20,7 @@ Ví điểm thưởng là cơ chế quản lý các lượng (đơn vị : đi�
 
 ## Getting Started
 
-Xem thêm trong phần [DEPENDENCIES.md](DEPENDENCIES.md) với các library và cách setup project
+Xem thêm trong phần [SETUP.md](documents/SETUP.md) với các library và cách setup project
 
 ## Project Structure
 

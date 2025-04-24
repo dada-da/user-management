@@ -17,11 +17,6 @@ int main() {
         mysqlx::Session session(connStr);
 
         std::cout << "Connected to MySQL server using X Protocol" << std::endl;
-
-        // Now you can use the session to execute queries
-        // mysqlx::Schema db = session.getSchema(dbName);
-        // auto collection = db.getCollection("your_collection");
-        // etc.
     } catch (const mysqlx::Error &err) {
         std::cerr << "Error connecting to database: " << err.what() << std::endl;
     } catch (std::exception &ex) {

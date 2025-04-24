@@ -3,11 +3,6 @@ project(user-management)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# Copy config files
-configure_file(${CMAKE_SOURCE_DIR}/config/database.conf
-        ${CMAKE_BINARY_DIR}/config/database.conf
-        COPYONLY)
-
 # Find Homebrew MySQL connector paths
 execute_process(
         COMMAND brew --prefix mysql-connector-c++
