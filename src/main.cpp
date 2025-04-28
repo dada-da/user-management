@@ -10,8 +10,6 @@ int main() {
 
     config.getDatabaseConfig();
 
-    std::cout << config.getConnectionString() << std::endl;
-
     try {
         const std::string connStr = config.getConnectionString();
         mysqlx::Session session(connStr);

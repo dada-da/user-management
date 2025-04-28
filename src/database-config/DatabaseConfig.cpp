@@ -36,7 +36,9 @@ std::string DatabaseConfig::getConnectionString() const {
 
     connectionString << host << ":" << port;
 
-    connectionString << "/" << dbName;
-
     return connectionString.str();
+}
+
+std::string DatabaseConfig::getDatabaseName() const {
+    return this->dbName;
 }

@@ -21,6 +21,8 @@ public:
     void getDatabaseConfig();
 
     [[nodiscard]] std::string getConnectionString() const;
+
+        [[nodiscard]] std::string getDatabaseName() const;
 };
 
 
