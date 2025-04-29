@@ -41,8 +41,16 @@
 *.app
 
 /cmake-build-debug
+/build
 /.idea
+
+# Database config
+config/*
 
 # OS specific files
 .DS_Store
 Thumbs.db
+
+#database-config sample and README
+!config/database-sample.conf
+!config/README.md

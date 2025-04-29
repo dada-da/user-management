@@ -12,6 +12,13 @@ execute_process(
 
 message(STATUS "MySQL Connector Directory: ${MYSQL_CONNECTOR_DIR}")
 
+
+# Copy config files
+configure_file(${CMAKE_SOURCE_DIR}/config/database.conf
+        ${CMAKE_BINARY_DIR}/config/database.conf
+        COPYONLY)
+
+
 # Include directories
 include_directories(
         ${MYSQL_CONNECTOR_DIR}/include
