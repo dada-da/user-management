@@ -26,8 +26,8 @@ include_directories(
 
 # Add executable
 add_executable(user-management src/main.cpp
-        src/database/MySQLConnection.cpp
-        src/database/MySQLConnection.h
+        src/database/DBConnection.cpp
+        src/database/DBConnection.h
         src/database-config/DatabaseConfig.cpp
         src/database-config/DatabaseConfig.h)
 

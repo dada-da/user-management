@@ -1,9 +1,7 @@
 #include <iostream>
-#include <mysqlx/xdevapi.h>
 
 #include "database-config/DatabaseConfig.h"
-
-using namespace mysqlx;
+#include "database/DBConnection.h"
 
 int main()
 {
@@ -19,24 +17,11 @@ int main()
 
   config.getConfig();
 
-  try
-  {
-    const std::string connStr = config.getConnectionString();
-    mysqlx::Session session(connStr);
+  const std::string connStr = config.getConnectionString();
 
-    std::cout << "Connected to MySQL server using X Protocol" << std::endl;
-  }
-  catch (const mysqlx::Error &err)
+  if (DBConnection::getInstance().connect(connStr))
   {
-    std::cerr << "Error connecting to database: " << err.what() << std::endl;
-  }
-  catch (std::exception &ex)
-  {
-    std::cerr << "STD exception: " << ex.what() << std::endl;
-  }
-  catch (...)
-  {
-    std::cerr << "Unknown exception" << std::endl;
+    std::cout << "Connected" << std::endl;
   }
 
   return 0;

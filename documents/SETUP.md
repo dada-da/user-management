@@ -37,4 +37,4 @@ MySQL Connector/C++
 
 ## Setup Database:
 
-Sau khi hoàn thành phần setup project, mọi người vào đọc [README.md](config/README.md) trong folder `config` nhé
+Sau khi hoàn thành phần setup project, mọi người vào đọc [README.md](../config/README.md) trong folder `config` nhé
