@@ -3,26 +3,29 @@
 #include "database-config/DatabaseConfig.h"
 #include "database/DBConnection.h"
 
-int main()
-{
-  const std::string &configPath = "config/database.conf";
-  DatabaseConfig config;
+using namespace std;
 
-  if (!config.init(configPath))
-  {
-    std::cerr << "Cannot load config!" << std::endl;
+int main() {
+    const string &configPath = "config/database.conf";
+    DatabaseConfig config;
 
-    return 1;
-  }
+    if (!DatabaseConfig::init(configPath)) {
+        cerr << "Cannot load config!" << endl;
 
-  config.getConfig();
+        return 1;
+    }
 
-  const std::string connStr = config.getConnectionString();
+    config.getConfig();
 
-  if (DBConnection::getInstance().connect(connStr))
-  {
-    std::cout << "Connected" << std::endl;
-  }
+    if (!DBConnection::getInstance().connect(config.getConnectionString())) {
+        cout << "Cannot connect to My SQL" << endl;
+    }
 
-  return 0;
+    DBConnection::getInstance().init(config.getDatabaseName());
+
+    if (!DBConnection::getInstance().init(config.getDatabaseName())) {
+        cout << "Cannot init" << config.getDatabaseName() << endl;
+    }
+
+    return 0;
 }

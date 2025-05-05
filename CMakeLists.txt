@@ -29,7 +29,13 @@ add_executable(user-management src/main.cpp
         src/database/DBConnection.cpp
         src/database/DBConnection.h
         src/database-config/DatabaseConfig.cpp
-        src/database-config/DatabaseConfig.h)
+        src/database-config/DatabaseConfig.h
+        src/database-constants/UserTable.h
+        src/database-constants/UserQueries.h
+        src/database-constants/WalletTable.h
+        src/database-constants/WalletQueries.h
+        src/database-constants/TransactionTable.h
+        src/database-constants/TransactionQueries.h)
 
 # Find the X DevAPI library
 find_library(MYSQLCPPCONNX_LIBRARY

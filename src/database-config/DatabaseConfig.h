@@ -1,11 +1,7 @@
 #ifndef DATABASECONFIG_H
 #define DATABASECONFIG_H
 
-#include <fstream>
-#include <cstdlib>
-#include <iostream>
-#include <optional>
-#include <mysqlx/devapi/common.h>
+#include <string>
 
 struct ConnectionParams
 {
@@ -30,7 +26,7 @@ public:
 
   void getConfig();
 
-  bool init(const std::string& filePath);
+  static bool init(const std::string& filePath);
 
   [[nodiscard]] std::string getConnectionString() const;
 

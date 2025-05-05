@@ -1,10 +1,15 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <mysqlx/devapi/common.h>
+
 #include "DatabaseConfig.h"
 
-#include <iostream>
+using namespace std;
 
 namespace
 {
-  void setEnvironmentVariable(const std::string &name, const std::string &value)
+  void setEnvironmentVariable(const string &name, const string &value)
   {
 #ifdef _WIN32
     _putenv_s(name.c_str(), value.c_str());
@@ -14,21 +19,19 @@ namespace
   }
 }
 
-bool DatabaseConfig::init(const std::string &filePath)
+bool DatabaseConfig::init(const string &filePath)
 {
-  std::ifstream configFile(filePath);
+  ifstream configFile(filePath);
   if (!configFile.is_open())
   {
-    std::cerr << "Could not open config file: " << filePath << std::endl;
+    cerr << "Could not open config file: " << filePath << endl;
     return false;
   }
 
-  std::cout << "Loading database configuration from " << filePath << std::endl;
-
-  std::string line;
+  string line;
   bool success = true;
 
-  while (std::getline(configFile, line))
+  while (getline(configFile, line))
   {
     if (line.empty() || line[0] == '#')
     {
@@ -36,10 +39,10 @@ bool DatabaseConfig::init(const std::string &filePath)
     }
 
     size_t equalsPos = line.find('=');
-    if (equalsPos != std::string::npos)
+    if (equalsPos != string::npos)
     {
-      std::string key = line.substr(0, equalsPos);
-      std::string value = line.substr(equalsPos + 1);
+      string key = line.substr(0, equalsPos);
+      string value = line.substr(equalsPos + 1);
 
       key.erase(0, key.find_first_not_of(" \t"));
       key.erase(key.find_last_not_of(" \t") + 1);
@@ -50,14 +53,14 @@ bool DatabaseConfig::init(const std::string &filePath)
     }
   }
 
-  const std::vector<std::string> requiredVars = {
+  const vector<string> requiredVars = {
       "DB_HOST", "DB_PORT", "DB_USER", "DB_PASSWORD", "DB_NAME"};
 
   for (const auto &var : requiredVars)
   {
-    if (!std::getenv(var.c_str()))
+    if (!getenv(var.c_str()))
     {
-      std::cerr << "Required variable " << var << " not found in config file" << std::endl;
+      cerr << "Required variable " << var << " not found in config file" << endl;
       success = false;
     }
   }
@@ -70,7 +73,7 @@ void DatabaseConfig::getConfig()
   struct EnvVar
   {
     const char *name;
-    std::string *target;
+    string *target;
   };
 
   EnvVar vars[] = {
@@ -82,21 +85,21 @@ void DatabaseConfig::getConfig()
 
   for (const auto &[name, target] : vars)
   {
-    const char *value = std::getenv(name);
+    const char *value = getenv(name);
 
     if (value == nullptr)
     {
-      std::cerr << name << " not set" << std::endl;
+      cerr << name << " not set" << endl;
       return;
     }
 
-    *target = std::string(value);
+    *target = string(value);
   }
 }
 
-std::string DatabaseConfig::getConnectionString() const
+string DatabaseConfig::getConnectionString() const
 {
-  std::stringstream connectionString;
+  stringstream connectionString;
   connectionString << "mysqlx://";
 
   connectionString << user << ":" << password << "@";
@@ -106,7 +109,7 @@ std::string DatabaseConfig::getConnectionString() const
   return connectionString.str();
 }
 
-std::string DatabaseConfig::getDatabaseName() const
+string DatabaseConfig::getDatabaseName() const
 {
   return this->dbName;
 }
