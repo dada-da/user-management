@@ -3,7 +3,7 @@
 #include <string>
 #include <mysqlx/devapi/common.h>
 
-#include "DatabaseConfig.h"
+#include "database_config.h"
 
 using namespace std;
 

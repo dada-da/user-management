@@ -1,7 +1,9 @@
 #include <iostream>
 
-#include "database-config/DatabaseConfig.h"
-#include "database/DBConnection.h"
+#include "database_config/database_config.h"
+#include "database/db_connection.h"
+#include "menu_system/menu_system.h"
+#include "user/user_management.h"
 
 using namespace std;
 
@@ -21,11 +23,15 @@ int main() {
         cout << "Cannot connect to My SQL" << endl;
     }
 
-    DBConnection::getInstance().init(config.getDatabaseName());
+    // DBConnection::getInstance().init(config.getDatabaseName());
 
     if (!DBConnection::getInstance().init(config.getDatabaseName())) {
         cout << "Cannot init" << config.getDatabaseName() << endl;
     }
+
+
+    UserManagement userMgmt;
+    MenuSystem::run(&userMgmt);
 
     return 0;
 }

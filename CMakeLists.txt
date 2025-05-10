@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(user-management)
+project(payment-system)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -25,17 +25,22 @@ include_directories(
 )
 
 # Add executable
-add_executable(user-management src/main.cpp
-        src/database/DBConnection.cpp
-        src/database/DBConnection.h
-        src/database-config/DatabaseConfig.cpp
-        src/database-config/DatabaseConfig.h
+add_executable(payment-system src/main.cpp
+        src/database/db_connection.cpp
+        src/database/db_connection.h
+        src/database_config/database_config.cpp
+        src/database_config/database_config.h
         src/database-constants/UserTable.h
         src/database-constants/UserQueries.h
         src/database-constants/WalletTable.h
         src/database-constants/WalletQueries.h
         src/database-constants/TransactionTable.h
-        src/database-constants/TransactionQueries.h)
+        src/database-constants/TransactionQueries.h
+        src/menu_system/menu_system.cpp
+        src/menu_system/menu_system.h
+        src/user/user.h
+        src/user/user_management.cpp
+        src/user/user_management.h)
 
 # Find the X DevAPI library
 find_library(MYSQLCPPCONNX_LIBRARY
@@ -52,10 +57,10 @@ if (NOT MYSQLCPPCONNX_LIBRARY)
 endif ()
 
 # Link with the library
-target_link_libraries(user-management ${MYSQLCPPCONNX_LIBRARY})
+target_link_libraries(payment-system ${MYSQLCPPCONNX_LIBRARY})
 
 # Set RPATH
-set_target_properties(user-management PROPERTIES
+set_target_properties(payment-system PROPERTIES
         BUILD_WITH_INSTALL_RPATH TRUE
         INSTALL_RPATH "${MYSQL_CONNECTOR_DIR}/lib"
 )

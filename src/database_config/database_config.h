@@ -1,5 +1,5 @@
-#ifndef DATABASECONFIG_H
-#define DATABASECONFIG_H
+#ifndef DATABASE_CONFIG_H
+#define DATABASE_CONFIG_H
 
 #include <string>
 
@@ -33,4 +33,4 @@ public:
   [[nodiscard]] std::string getDatabaseName() const;
 };
 
-#endif // DATABASECONFIG_H
+#endif // DATABASE_CONFIG_H

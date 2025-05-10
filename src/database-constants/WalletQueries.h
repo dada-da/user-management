@@ -1,7 +1,3 @@
-//
-// Created by Da on 6/5/25.
-//
-
 #ifndef WALLETQUERIES_H
 #define WALLETQUERIES_H
 

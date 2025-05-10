@@ -10,7 +10,7 @@
 #include "../database-constants/WalletQueries.h"
 #include "../database-constants/TransactionTable.h"
 #include "../database-constants/TransactionQueries.h"
-#include "DBConnection.h"
+#include "db_connection.h"
 
 DBConnection::DBConnection() = default;
 
