@@ -2,8 +2,8 @@
 // Created by Da on 6/5/25.
 //
 
-#ifndef WALLETTABLE_H
-#define WALLETTABLE_H
+#ifndef WALLET_TABLE_H
+#define WALLET_TABLE_H
 
 namespace wallet_table {
     inline constexpr auto *TABLE_NAME = "wallets";
@@ -23,4 +23,4 @@ namespace wallet_table {
     }
 }
 
-#endif //WALLETTABLE_H
+#endif //WALLET_TABLE_H

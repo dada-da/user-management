@@ -1,10 +1,10 @@
-#ifndef WALLETQUERIES_H
-#define WALLETQUERIES_H
+#ifndef WALLET_QUERIES_H
+#define WALLET_QUERIES_H
 
 #include <string>
 
-#include "WalletTable.h"
-#include "UserTable.h"
+#include "wallet_table.h"
+#include "user_table.h"
 
 namespace wallet_queries {
     inline const std::string CREATE_TABLE =
@@ -22,4 +22,4 @@ namespace wallet_queries {
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 }
 
-#endif //WALLETQUERIES_H
+#endif //WALLET_QUERIES_H

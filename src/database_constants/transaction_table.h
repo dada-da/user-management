@@ -2,8 +2,8 @@
 // Created by Da on 6/5/25.
 //
 
-#ifndef TRANSACTIONTABLE_H
-#define TRANSACTIONTABLE_H
+#ifndef TRANSACTION_TABLE_H
+#define TRANSACTION_TABLE_H
 
 #include <array>
 
@@ -36,4 +36,4 @@ namespace transaction_table {
     }
 }
 
-#endif //TRANSACTIONTABLE_H
+#endif //TRANSACTION_TABLE_H

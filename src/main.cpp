@@ -4,6 +4,7 @@
 #include "database/db_connection.h"
 #include "menu_system/menu_system.h"
 #include "user/user_management.h"
+#include "database_constants/user_queries.h"
 
 using namespace std;
 

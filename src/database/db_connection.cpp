@@ -4,12 +4,12 @@
 #include <mysqlx/xdevapi.h>
 #include <mutex>
 
-#include "../database-constants/UserTable.h"
-#include "../database-constants/UserQueries.h"
-#include "../database-constants/WalletTable.h"
-#include "../database-constants/WalletQueries.h"
-#include "../database-constants/TransactionTable.h"
-#include "../database-constants/TransactionQueries.h"
+#include "../database_constants/user_table.h"
+#include "../database_constants/user_queries.h"
+#include "../database_constants/wallet_table.h"
+#include "../database_constants/wallet_queries.h"
+#include "../database_constants/transaction_table.h"
+#include "../database_constants/transaction_queries.h"
 #include "db_connection.h"
 
 DBConnection::DBConnection() = default;

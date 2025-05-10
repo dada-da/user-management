@@ -1,9 +1,5 @@
-//
-// Created by Da on 6/5/25.
-//
-
-#ifndef USERTABLE_H
-#define USERTABLE_H
+#ifndef USER_TABLE_H
+#define USER_TABLE_H
 
 #include <array>
 
@@ -41,4 +37,4 @@ namespace user_table {
     }
 }
 
-#endif //USERTABLE_H
+#endif //USER_TABLE_H

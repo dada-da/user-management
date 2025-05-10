@@ -2,13 +2,13 @@
 // Created by Da on 6/5/25.
 //
 
-#ifndef TRANSACTIONQUERIES_H
-#define TRANSACTIONQUERIES_H
+#ifndef TRANSACTION_QUERIES_H
+#define TRANSACTION_QUERIES_H
 
 #include <string>
 
-#include "TransactionTable.h"
-#include "UserTable.h"
+#include "transaction_table.h"
+#include "user_table.h"
 
 namespace transaction_queries {
     inline const std::string CREATE_TABLE =
@@ -36,4 +36,4 @@ namespace transaction_queries {
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
 }
 
-#endif //TRANSACTIONQUERIES_H
+#endif //TRANSACTION_QUERIES_H

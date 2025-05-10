@@ -30,12 +30,12 @@ add_executable(payment-system src/main.cpp
         src/database/db_connection.h
         src/database_config/database_config.cpp
         src/database_config/database_config.h
-        src/database-constants/UserTable.h
-        src/database-constants/UserQueries.h
-        src/database-constants/WalletTable.h
-        src/database-constants/WalletQueries.h
-        src/database-constants/TransactionTable.h
-        src/database-constants/TransactionQueries.h
+        src/database_constants/user_table.h
+        src/database_constants/user_queries.h
+        src/database_constants/wallet_table.h
+        src/database_constants/wallet_queries.h
+        src/database_constants/transaction_table.h
+        src/database_constants/transaction_queries.h
         src/menu_system/menu_system.cpp
         src/menu_system/menu_system.h
         src/user/user.h

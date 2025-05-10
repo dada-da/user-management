@@ -11,10 +11,11 @@ Ví điểm thưởng là cơ chế quản lý các lượng (đơn vị : đi�
 
 ## Thành viên
 
-| Tên         | Mã SV      | Công việc được giao                                     |
-|-------------|------------|---------------------------------------------------------|
-| Cao Đức Anh | K24DTCN571 | - Phân tích dự án<br/> - Tạo dự án<br/>- Tạo menu chính |
-| Paragraph   | Text       |                                                         |
+| Tên                | Mã SV      | Công việc được giao                                     |
+|--------------------|------------|---------------------------------------------------------|
+| Cao Đức Anh        | K24DTCN571 | - Phân tích dự án<br/> - Tạo dự án<br/>- Tạo menu chính |
+| Vũ Đinh Minh Thắng | Text       |                                                         |
+| Phạm Tuấn Minh     | Text       |                                                         |
 
 ## Phân tích dự án
 
