@@ -150,3 +150,29 @@ void DBConnection::executeSQL(const std::string &sqlQuery) const {
         std::cerr << "SQL execution error: " << err.what() << std::endl;
     }
 }
+
+std::unique_ptr<mysqlx::SqlResult> DBConnection::executePreparedStatement(
+    const std::string &query, const std::vector<std::string> &params) const {
+    std::lock_guard lock(mutex);
+
+    if (!session) {
+        return nullptr;
+    }
+
+    try {
+        auto stmt = session->sql(query);
+
+        for (const auto &param: params) {
+            stmt.bind(param);
+        }
+
+        return std::make_unique<mysqlx::SqlResult>(stmt.execute());
+    } catch (const mysqlx::Error &err) {
+        std::cerr << "Error executing prepared statement: " << err.what() << std::endl;
+        return nullptr;
+    }
+    catch (const std::exception &err) {
+        std::cerr << "Error executing prepared statement: " << err.what() << std::endl;
+        return nullptr;
+    }
+}

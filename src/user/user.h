@@ -11,20 +11,32 @@ enum class Role {
 
 class User {
     std::string username;
-    std::string password;
+    std::string name;
     std::string email;
-    Role role;
-    
+    std::string password;
+    std::string role;
+    bool active;
+
 public:
-    User(const std::string& user, const std::string& pass, const std::string& mail, Role r)
-        : username(user), password(pass), email(mail), role(r) {}
-    
+    User(const std::string &username,
+         const std::string &name,
+         const std::string &email,
+         const std::string &password,
+         const std::string &role,
+         bool active)
+        : username(username), name(name), email(email),
+          password(password), role(role), active(active) {
+    }
+
     std::string getUsername() const { return username; }
-    std::string getPassword() const { return password; }
+    std::string getName() const { return name; }
     std::string getEmail() const { return email; }
-    Role getRole() const { return role; }
-    
-    void setRole(Role r) { role = r; }
+    std::string getPassword() const { return password; }
+    std::string getRole() const { return role; }
+    bool isActive() const { return active; }
+
+    void setRole(const std::string &r) { role = r; }
+    void setActive(bool a) { active = a; }
 };
 
 #endif // USER_H

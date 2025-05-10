@@ -4,7 +4,6 @@
 #include "database/db_connection.h"
 #include "menu_system/menu_system.h"
 #include "user/user_management.h"
-#include "database_constants/user_queries.h"
 
 using namespace std;
 
@@ -14,7 +13,6 @@ int main() {
 
     if (!DatabaseConfig::init(configPath)) {
         cerr << "Cannot load config!" << endl;
-
         return 1;
     }
 
@@ -22,14 +20,13 @@ int main() {
 
     if (!DBConnection::getInstance().connect(config.getConnectionString())) {
         cout << "Cannot connect to My SQL" << endl;
+        return 1;
     }
-
-    // DBConnection::getInstance().init(config.getDatabaseName());
 
     if (!DBConnection::getInstance().init(config.getDatabaseName())) {
         cout << "Cannot init" << config.getDatabaseName() << endl;
+        return 1;
     }
-
 
     UserManagement userMgmt;
     MenuSystem::run(&userMgmt);

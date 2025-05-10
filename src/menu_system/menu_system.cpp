@@ -3,6 +3,7 @@
 #include "menu_system.h"
 #include "../user/user.h"
 #include "../user/user_management.h"
+#include "../database_constants/user_table.h"
 
 UserManagement *MenuSystem::userMgmt = nullptr;
 bool MenuSystem::exitRequested = false;
@@ -10,39 +11,39 @@ MenuSystem::MenuLevel MenuSystem::currentLevel = MenuLevel::MAIN_MENU;
 std::vector<MenuSystem::MenuLevel> MenuSystem::menuStack;
 
 const MenuSystem::MenuItem MenuSystem::MAIN_MENU_ITEMS[] = {
-    {1, "Login", Role::NONE, &MenuSystem::login},
-    {2, "Register", Role::NONE, &MenuSystem::registerUser},
-    {0, "Exit", Role::NONE, &MenuSystem::exit}
+    {1, "Login", "", &MenuSystem::login},
+    {2, "Register", "", &MenuSystem::registerUser},
+    {0, "Exit", "", &MenuSystem::exit}
 };
 
 const MenuSystem::MenuItem MenuSystem::USER_MENU_ITEMS[] = {
-    {1, "Account Management", Role::USER, &MenuSystem::navigateToAccountMenu},
-    {2, "Transfer Points", Role::USER, &MenuSystem::transferPoints},
-    {3, "Logout", Role::USER, &MenuSystem::logout},
-    {0, "Exit", Role::NONE, &MenuSystem::exit}
+    {1, "Account Management", user_table::roles::USER, &MenuSystem::navigateToAccountMenu},
+    {2, "Transfer Points", user_table::roles::USER, &MenuSystem::transferPoints},
+    {3, "Logout", user_table::roles::USER, &MenuSystem::logout},
+    {0, "Exit", "", &MenuSystem::exit}
 };
 
 const MenuSystem::MenuItem MenuSystem::ADMIN_MENU_ITEMS[] = {
-    {1, "Create User", Role::ADMIN, &MenuSystem::createUser},
-    {2, "Delete User", Role::ADMIN, &MenuSystem::deleteUser},
-    {3, "Reset User Password", Role::ADMIN, &MenuSystem::resetPassword},
-    {4, "Search by Username", Role::USER, &MenuSystem::searchUser},
-    {5, "Search by Email", Role::USER, &MenuSystem::searchByEmail},
-    {6, "Logout", Role::USER, &MenuSystem::logout},
-    {0, "Exit", Role::NONE, &MenuSystem::exit}
+    {1, "Create User", user_table::roles::ADMIN, &MenuSystem::createUser},
+    {2, "Delete User", user_table::roles::ADMIN, &MenuSystem::deleteUser},
+    {3, "Reset User Password", user_table::roles::ADMIN, &MenuSystem::resetPassword},
+    {4, "Search by Username", user_table::roles::USER, &MenuSystem::searchUser},
+    {5, "Search by Email", user_table::roles::USER, &MenuSystem::searchByEmail},
+    {6, "Logout", user_table::roles::USER, &MenuSystem::logout},
+    {0, "Exit", "", &MenuSystem::exit}
 };
 
 const MenuSystem::MenuItem MenuSystem::ACCOUNT_MENU_ITEMS[] = {
-    {1, "Change Password", Role::USER, &MenuSystem::changePassword},
-    {2, "Update Profile", Role::USER, &MenuSystem::updateProfile},
-    {3, "Delete My Account", Role::USER, &MenuSystem::deleteUser},
-    {4, "Back to User Menu", Role::USER, &MenuSystem::goBackAction}
+    {1, "Change Password", user_table::roles::USER, &MenuSystem::changePassword},
+    {2, "Update Profile", user_table::roles::USER, &MenuSystem::updateProfile},
+    {3, "Delete My Account", user_table::roles::USER, &MenuSystem::deleteUser},
+    {4, "Back to User Menu", user_table::roles::USER, &MenuSystem::goBackAction}
 };
 
 const MenuSystem::MenuItem MenuSystem::SEARCH_MENU_ITEMS[] = {
-    {1, "Search by Username", Role::USER, &MenuSystem::searchUser},
-    {2, "Search by Email", Role::USER, &MenuSystem::searchByEmail},
-    {0, "Back to User Menu", Role::USER, &MenuSystem::goBackAction}
+    {1, "Search by Username", user_table::roles::USER, &MenuSystem::searchUser},
+    {2, "Search by Email", user_table::roles::USER, &MenuSystem::searchByEmail},
+    {0, "Back to User Menu", user_table::roles::USER, &MenuSystem::goBackAction}
 };
 
 const int MenuSystem::MAIN_MENU_SIZE = std::size(MAIN_MENU_ITEMS);
@@ -76,12 +77,18 @@ const MenuSystem::MenuItem *MenuSystem::getCurrentMenuItems(const MenuLevel leve
 
 std::string MenuSystem::getLevelName(MenuLevel level) {
     switch (level) {
-        case MenuLevel::MAIN_MENU: return "Main Menu";
-        case MenuLevel::USER_MENU: return "User Menu";
-        case MenuLevel::ADMIN_MENU: return "Admin Menu";
-        case MenuLevel::ACCOUNT_MENU: return "Account Menu";
-        case MenuLevel::SEARCH_MENU: return "Search Menu";
-        default: return "Unknown Menu";
+        case MenuLevel::MAIN_MENU:
+            return "Main Menu";
+        case MenuLevel::USER_MENU:
+            return "User Menu";
+        case MenuLevel::ADMIN_MENU:
+            return "Admin Menu";
+        case MenuLevel::ACCOUNT_MENU:
+            return "Account Menu";
+        case MenuLevel::SEARCH_MENU:
+            return "Search Menu";
+        default:
+            return "Unknown Menu";
     }
 }
 
@@ -94,16 +101,12 @@ void MenuSystem::printMenu(const User *currentUser, MenuLevel level) {
     std::cout << "Current Status: ";
     if (currentUser) {
         std::cout << currentUser->getUsername() << " (";
-        switch (currentUser->getRole()) {
-            case Role::USER:
-                std::cout << "User";
-                break;
-            case Role::ADMIN:
-                std::cout << "Administrator";
-                break;
-            default:
-                std::cout << "Unknown";
-                break;
+        if (currentUser->getRole() == user_table::roles::ADMIN) {
+            std::cout << "Administrator";
+        } else if (currentUser->getRole() == user_table::roles::USER) {
+            std::cout << "User";
+        } else {
+            std::cout << "Unknown";
         }
         std::cout << ")";
     } else {
@@ -127,12 +130,16 @@ void MenuSystem::printMenu(const User *currentUser, MenuLevel level) {
 }
 
 bool MenuSystem::isMenuItemVisible(const MenuItem &item, const User *currentUser) {
-    if (item.requiredRole == Role::NONE) return true;
-    if (!currentUser) return false;
+    if (item.requiredRole.empty())
+        return true;
+    if (!currentUser)
+        return false;
 
-    const Role userRole = currentUser->getRole();
-    if (userRole == Role::ADMIN) return true;
-    if (userRole == Role::USER && item.requiredRole == Role::USER) return true;
+    const std::string userRole = currentUser->getRole();
+    if (userRole == user_table::roles::ADMIN)
+        return true;
+    if (userRole == user_table::roles::USER && item.requiredRole == user_table::roles::USER)
+        return true;
 
     return false;
 }
@@ -166,18 +173,16 @@ void MenuSystem::goBack() {
     }
 }
 
-
 void MenuSystem::login(UserManagement *mgmt) {
     mgmt->login();
     User *user = mgmt->getCurrentUser();
 
     if (user != nullptr) {
-        if (user->getRole() == Role::ADMIN) {
+        if (user->getRole() == user_table::roles::ADMIN) {
             currentLevel = MenuLevel::ADMIN_MENU;
-        } else if (user->getRole() == Role::USER) {
+        } else if (user->getRole() == user_table::roles::USER) {
             currentLevel = MenuLevel::USER_MENU;
         }
-        // Don't use navigateToLevel here as we don't want to push MAIN_MENU to stack
     }
 }
 
@@ -236,7 +241,7 @@ void MenuSystem::navigateToSearchMenu(UserManagement *mgmt) {
 }
 
 void MenuSystem::transferPoints(UserManagement *mgmt) {
-    //TODO
+    // TODO
 }
 
 void MenuSystem::goBackAction(UserManagement *mgmt) {
@@ -271,7 +276,7 @@ void MenuSystem::deleteUser(UserManagement *mgmt) {
 }
 
 void MenuSystem::createUser(UserManagement *mgmt) {
-    mgmt->createUser();
+    // mgmt->createUser();
 }
 
 void MenuSystem::resetPassword(UserManagement *mgmt) {

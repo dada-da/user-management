@@ -2,14 +2,34 @@
 #include <algorithm>
 
 #include "user_management.h"
+#include "user.h"
+#include "../database/db_connection.h"
+#include "../database_constants/user_queries.h"
+#include "../database_constants/user_table.h"
 
 UserManagement::UserManagement() : currentUser(nullptr) {
-    users.emplace_back("admin", hashPassword("admin123"), "admin@system.com", Role::ADMIN);
-    users.emplace_back("user", hashPassword("user123"), "user@system.com", Role::USER);
+    if (!findUserByUsername("admin")) {
+        createUser(
+            "admin",
+            " Super Admin",
+            "admin@system.com",
+            "admin123",
+            user_table::roles::ADMIN,
+            true);
+    }
+
+    if (!findUserByUsername("user")) {
+        createUser(
+            "user",
+            "Default User",
+            "user@system.com",
+            "user123",
+            user_table::roles::USER,
+            true);
+    }
 }
 
-UserManagement::~UserManagement() {
-}
+UserManagement::~UserManagement() = default;
 
 std::string UserManagement::hashPassword(const std::string &password) {
     std::string hashed = password;
@@ -46,11 +66,10 @@ void UserManagement::login() {
     std::cout << "Password: ";
     std::cin >> password;
 
-    User *user = findUser(username);
-    if (user && validatePassword(password, user->getPassword())) {
-        currentUser = user;
+    if (auto user = findUserByUsername(username); user && validatePassword(password, user->getPassword())) {
+        currentUser = new User(*user);
         std::cout << "\nLogin successful! Welcome, " << username;
-        if (user->getRole() == Role::ADMIN) {
+        if (user->getRole() == user_table::roles::ADMIN) {
             std::cout << " (Administrator)";
         }
         std::cout << "!\n";
@@ -60,40 +79,129 @@ void UserManagement::login() {
 }
 
 void UserManagement::registerUser() {
-    //TODO
+    // TODO
 }
 
 void UserManagement::searchUser() {
-    std::string username;
-    std::cout << "\n--- Search User ---\n";
-    std::cout << "Enter username to search: ";
-    std::cin >> username;
-
-    //TODO
+    // TODO
 }
 
 void UserManagement::deleteUser() const {
-    if (!currentUser) {
-        std::cout << "\nYou must be logged in to delete an account!\n";
-        return;
-    }
-
-    //TODO
+    // TODO
 }
 
 void UserManagement::logout() {
     if (currentUser) {
         std::cout << "\nLogging out... Goodbye, " << currentUser->getUsername() << "!\n";
+        delete currentUser;
         currentUser = nullptr;
     } else {
         std::cout << "\nYou are not logged in!\n";
     }
 }
 
-void UserManagement::createUser() {
-    //TODO
+void UserManagement::resetPassword() {
+    // TODO
 }
 
-void UserManagement::resetPassword() {
+bool UserManagement::createUser(const std::string &username, const std::string &name,
+                                const std::string &email, const std::string &password,
+                                const std::string &role, bool active) {
     //TODO
+    const std::string hashedPassword = hashPassword(password);
+
+    const std::vector<std::string> params = {
+        username,
+        name,
+        email,
+        hashedPassword,
+        role,
+        active ? "1" : "0"
+    };
+
+    const auto result = DBConnection::getInstance().executePreparedStatement(user_queries::INSERT_USER, params);
+    return result != nullptr;
+}
+
+std::optional<User> UserManagement::findUserByUsername(const std::string &username) {
+    const std::vector<std::string> params = {username};
+    const auto result = DBConnection::getInstance().executePreparedStatement(
+        user_queries::SELECT_USER_BY_USERNAME, params);
+
+    if (!result) {
+        return std::nullopt;
+    }
+
+    try {
+        auto row = result->fetchOne();
+        if (!row) {
+            return std::nullopt;
+        }
+
+        return User(
+            row.get(0).get<std::string>(),
+            row.get(1).get<std::string>(),
+            row.get(4).get<std::string>(),
+            row.get(5).get<std::string>(),
+            row.get(7).get<std::string>(),
+            row.get(8).get<bool>());
+    } catch (const std::exception &e) {
+        std::cerr << "Error parsing user data: " << e.what() << std::endl;
+        return std::nullopt;
+    }
+}
+
+std::optional<User> UserManagement::findUserByEmail(const std::string &email) {
+    std::vector params = {email};
+    auto result = DBConnection::getInstance().executePreparedStatement(user_queries::SELECT_USER_BY_EMAIL, params);
+    // TODO
+    return std::nullopt;
+}
+
+std::vector<User> UserManagement::getAllUsers() {
+    auto result = DBConnection::getInstance().executePreparedStatement(user_queries::SELECT_ALL_USERS, {});
+    // TODO
+    return {};
+}
+
+std::unique_ptr<mysqlx::SqlResult> UserManagement::updateUser(const std::string &username, const std::string &name,
+                                                              const std::string &email, const std::string &role,
+                                                              bool active) {
+    //TODO
+    std::vector<std::string> params = {
+        name,
+        email,
+        role,
+        active ? "1" : "0",
+        username
+    };
+    return DBConnection::getInstance().executePreparedStatement(user_queries::UPDATE_USER, params);
+}
+
+std::unique_ptr<mysqlx::SqlResult> UserManagement::updatePassword(const std::string &username,
+                                                                  const std::string &newPassword) {
+    //TODO
+    std::string hashedPassword = hashPassword(newPassword);
+    std::vector<std::string> params = {hashedPassword, username};
+    return DBConnection::getInstance().executePreparedStatement(user_queries::UPDATE_PASSWORD, params);
+}
+
+std::unique_ptr<mysqlx::SqlResult> UserManagement::updateOTP(const std::string &username, const std::string &otp) {
+    std::vector params = {otp, username};
+    //TODO
+    return DBConnection::getInstance().executePreparedStatement(user_queries::UPDATE_OTP, params);
+}
+
+std::unique_ptr<mysqlx::SqlResult> UserManagement::deactivateUser(const std::string &username) {
+    std::vector params = {username};
+    //TODO
+    return DBConnection::getInstance().executePreparedStatement(user_queries::DEACTIVATE_USER, params);
+}
+
+std::vector<User> UserManagement::searchUsers(const std::string &searchTerm) {
+    std::string likeTerm = "%" + searchTerm + "%";
+    std::vector params = {likeTerm, likeTerm, likeTerm};
+    auto result = DBConnection::getInstance().executePreparedStatement(user_queries::SEARCH_USERS, params);
+    // TODO
+    return {};
 }

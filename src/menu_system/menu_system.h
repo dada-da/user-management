@@ -20,14 +20,14 @@ public:
     struct MenuItem {
         int value;
         std::string label;
-        Role requiredRole;
+        std::string requiredRole;
 
         void (*action)(UserManagement *);
 
         MenuLevel nextLevel;
         bool isNavigation;
 
-        MenuItem(const int val, const std::string &lbl, const Role role, void (*act)(UserManagement *),
+        MenuItem(const int val, const std::string &lbl, const std::string &role, void (*act)(UserManagement *),
                  const MenuLevel next = MenuLevel::MAIN_MENU, const bool isNav = false)
             : value(val), label(lbl), requiredRole(role), action(act),
               nextLevel(next), isNavigation(isNav) {
@@ -51,7 +51,6 @@ private:
     static const int ADMIN_MENU_SIZE;
     static const int ACCOUNT_MENU_SIZE;
     static const int SEARCH_MENU_SIZE;
-
 
     static void printMenu(const User *currentUser, MenuLevel level);
 

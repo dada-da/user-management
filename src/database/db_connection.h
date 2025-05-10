@@ -3,6 +3,9 @@
 
 #include <mysqlx/xdevapi.h>
 #include <memory>
+#include <string>
+#include <vector>
+#include <mutex>
 
 class DBConnection {
     DBConnection();
@@ -39,6 +42,9 @@ public:
     [[nodiscard]] bool isConnected() const;
 
     [[nodiscard]] bool init(const std::string &dbName);
+
+    std::unique_ptr<mysqlx::SqlResult> executePreparedStatement(const std::string &query,
+                                                                const std::vector<std::string> &params) const;
 };
 
 #endif // MYSQL_CONNECTION_H
