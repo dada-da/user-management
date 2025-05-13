@@ -21,24 +21,18 @@ Ví điểm thưởng là cơ chế quản lý các lượng (đơn vị : đi�
 
 ## Getting Started
 
-Xem thêm trong phần [SETUP.md](documents/SETUP.md) với các library và cách setup project
+Xem thêm trong phần [SETUP.md](docs/SETUP.md) với các library và cách setup project
 
 ## Project Structure
 
 ```
-account-management/
-│
-├── CMakeLists.txt           # Main CMake configuration
-│
-├── src/                     # Ssource files
-│
-├── extern/                  # External dependencies
-│   └── mysql-connector-cpp/ # Set up by the scripts
-│       ├── include/         # MySQL C++ header files
-│       └── lib/             # Platform-specific libraries
-│           ├── macos/       # macOS dylib files
-│           └── windows/     # Windows DLLs and LIB files
-│
-├── downloads/               # Where MySQL Connector gets downloaded
-│
+payment-system/
+├── src/                      # Source code
+├── config/                   # Configuration files
+├── docker/                   # Docker-related files
+├── db-init/                  # Database initialization
+├── examples/                 # Example code
+├── CMakeLists.txt            # Build configuration
+├── docker-compose.yml        # Docker orchestration
+└── README.md                 # Project documentation
 ```

@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # MySQL 9.3 Database Service
+  mysql:
+    image: mysql:9.3
+    container_name: payment-system-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: payment_system
+      MYSQL_USER: payment_user
+      MYSQL_PASSWORD: payment_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db-init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+      - "33060:33060"  # X Protocol port for XDevAPI
+    networks:
+      - payment-network
+    command: --default-authentication-plugin=mysql_native_password --mysqlx=1
+
+  # Payment System Application (Development Mode)
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: payment-system-dev
+    volumes:
+      - .:/app
+      - build-cache:/app/build
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - payment-network
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=33060
+      - MYSQL_USER=payment_user
+      - MYSQL_PASSWORD=payment_password
+      - MYSQL_DATABASE=payment_system
+    # Override the default command for development
+    command: bash -c "mkdir -p build && cd build && cmake .. && make -j4 && ./bin/payment-system"
+
+  # For production deployment
+  app-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: payment-system-prod
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - payment-network
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=33060
+      - MYSQL_USER=payment_user
+      - MYSQL_PASSWORD=payment_password
+      - MYSQL_DATABASE=payment_system
+
+networks:
+  payment-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  build-cache:

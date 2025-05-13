@@ -1,0 +1,45 @@
+FROM ubuntu:22.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    curl \
+    libssl-dev \
+    pkg-config \
+    libcurl4-openssl-dev \
+    unzip \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install MySQL client libraries
+RUN apt-get update && apt-get install -y \
+    libmysqlclient-dev \
+    mysql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install MySQL Connector/C++ 9.2
+WORKDIR /tmp
+RUN wget https://dev.mysql.com/get/Downloads/Connector-C++/mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit.tar.gz \
+    && tar -xzvf mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit.tar.gz \
+    && cp -r mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit/include/* /usr/local/include/ \
+    && cp -r mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit/lib64/* /usr/local/lib/ \
+    && ldconfig \
+    && rm -rf mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit.tar.gz
+
+# Create project directory
+WORKDIR /app
+
+# Copy CMakeLists.txt first to cache dependencies
+COPY CMakeLists.txt .
+
+# This is where the source files will be mounted
+# or copied in a production build
+
+# Default command to run when container starts
+CMD ["bash"]
