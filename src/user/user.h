@@ -3,11 +3,7 @@
 
 #include <string>
 
-enum class Role {
-    NONE,
-    USER,
-    ADMIN
-};
+#include "../role/role.h"
 
 class User {
     std::string username;
@@ -23,20 +19,56 @@ public:
          const std::string &email,
          const std::string &password,
          const std::string &role,
-         bool active)
+         const bool active)
         : username(username), name(name), email(email),
           password(password), role(role), active(active) {
     }
 
-    std::string getUsername() const { return username; }
-    std::string getName() const { return name; }
-    std::string getEmail() const { return email; }
-    std::string getPassword() const { return password; }
-    std::string getRole() const { return role; }
-    bool isActive() const { return active; }
+    std::string getName() const {
+        return name;
+    }
 
-    void setRole(const std::string &r) { role = r; }
-    void setActive(bool a) { active = a; }
+    std::string getEmail() const {
+        return email;
+    }
+
+    std::string getPassword() const {
+        return password;
+    }
+
+    std::string getRole() const {
+        return role;
+    }
+
+    bool isActive() const {
+        return active;
+    }
+
+    void setRole(const std::string role) {
+        this->role = role;
+    }
+
+    void setActive(const bool active) {
+        this->active = active;
+    }
+
+    void setName(const std::string &name) {
+        this->name = name;
+    }
+
+    void setEmail(const std::string &email) {
+        this->email = email;
+    }
+
+    void setPassword(const std::string &password) {
+        this->password = password;
+    }
+
+    bool isAdmin() const {
+        return this->role == UserRoles::ADMIN;
+    }
+
+    ~User() = default;
 };
 
 #endif // USER_H
