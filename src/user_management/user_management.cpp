@@ -4,5 +4,5 @@
 
 #include "user_management.h"
 
-user_mgmt::UserManagement *user_mgmt::UserManagement::pinstance = nullptr;
+std::unique_ptr<user_mgmt::UserManagement> user_mgmt::UserManagement::pinstance = nullptr;
 std::mutex user_mgmt::UserManagement::mutex;
