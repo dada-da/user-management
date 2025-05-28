@@ -24,6 +24,10 @@ public:
           password(password), role(role), active(active) {
     }
 
+    std::string getUsername() const {
+        return username;
+    }
+
     std::string getName() const {
         return name;
     }

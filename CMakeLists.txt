@@ -3,7 +3,6 @@ project(payment-system)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# Source files
 set(SOURCES
         src/main.cpp
         src/user/customer.h
@@ -12,7 +11,8 @@ set(SOURCES
         src/user_management/user_management.h
         src/role/role.cpp
         src/role/role.h
+        src/menu_controller/menu_controller.cpp
+        src/menu_controller/menu_controller.h
 )
 
-# Add executable
 add_executable(${PROJECT_NAME} ${SOURCES})
