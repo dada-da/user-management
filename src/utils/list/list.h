@@ -78,6 +78,13 @@ public:
         return this->data;
     }
 
+    std::optional<T> getDataAt(const int index) {
+        if (index >= 0 && index < size) {
+            return data[index];
+        }
+        return std::nullopt;
+    }
+
     void insert(const T &value) {
         if (size >= capacity) {
             resize();

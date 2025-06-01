@@ -21,12 +21,11 @@ set(SOURCES
         src/menu_controller/menu_controller.cpp
         src/menu_controller/menu_controller.h
         src/user_data/user_data.h
-        src/file_controller/file_controller.h
-        src/password_manager/password_manager.cpp
-        src/password_manager/password_manager.h
-        src/file_controller/file_controller.cpp
+        src/user_data/user_data.cpp
+        src/utils/password_manager/password_manager.cpp
+        src/utils/password_manager/password_manager.h
         src/utils/list/list.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-add_dependencies(${PROJECT_NAME}  copy_database_files)
+add_dependencies(${PROJECT_NAME} copy_database_files)

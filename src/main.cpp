@@ -11,9 +11,7 @@ int main() {
 
     auto userData = db_user::UserData();
 
-
-    userData.readUsersFromFile("./database/users.csv");
-
+    userData.readUsersFromFile();
 
     MenuController::init();
 

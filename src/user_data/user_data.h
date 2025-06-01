@@ -17,11 +17,12 @@ namespace db_user {
         int id;
         std::string name;
         std::string username;
-        std::string points;
+        int points;
         std::string phone_number;
         std::string otp_id;
         std::string role;
         std::string password_hash;
+        std::string salt;
         std::string email;
         std::string dob;
         std::string created_at;
@@ -45,26 +46,44 @@ namespace db_user {
                 user.id = (fields[0] == "null" || fields[0].empty()) ? 0 : std::stoi(fields[0]);
                 user.name = (fields[1] == "null") ? "" : fields[1];
                 user.username = (fields[2] == "null") ? "" : fields[2];
-                user.points = fields[3];
+                user.points = (fields[3] == "null" || fields[3].empty()) ? 0 : std::stoi(fields[3]);;
                 user.phone_number = fields[4];
                 user.otp_id = fields[5];
                 user.role = (fields[6] == "null") ? "" : fields[6];
                 user.password_hash = fields[7];
-                user.email = fields[8];
-                user.dob = fields[9];
-                user.created_at = fields[10];
-                user.updated_at = fields[11];
+                user.salt = fields[8];
+                user.email = fields[9];
+                user.dob = fields[10];
+                user.created_at = fields[11];
+                user.updated_at = fields[12];
             }
 
             return user;
         }
 
+    protected:
+        static const std::string filePath;
+
     public:
-        void readUsersFromFile(const std::string &filename) {
-            std::ifstream file(filename);
+        static void initUser() {
+            const User customer = {
+                2, "customer", "customer", 10000, "null", "null", "null",
+                "11970201ac5917728656733e555c2f94605dc31ebac8880", "g&nK82RgUBcb9s0N", "null", "null",
+                "null", "null"
+            };
+
+            const User admin = {
+                1, "root", "root", 0, "null", "null", "null", "6f1c4b752e621acea9a05eb451b104d23853250b93ff8d13",
+                "g5GvcUsy@bg4Vz^S", "null", "null",
+                "null", "null"
+            };
+        }
+
+        void readUsersFromFile() {
+            std::ifstream file(filePath);
 
             if (!file.is_open()) {
-                throw std::runtime_error("Could not open file " + filename);
+                throw std::runtime_error("Could not open file " + filePath);
             }
 
             std::string line;
@@ -82,11 +101,48 @@ namespace db_user {
 
             file.close();
             std::cout << "Successfully read " << users.getSize() << " users from CSV" << std::endl;
-        };
+        }
 
-        List<User> getData() {
-            return users;
-        };
+        void writeUsersToFile() {
+            std::ofstream file(filePath);
+            if (!file.is_open()) {
+                throw std::runtime_error("Error opening file for writing");
+            }
+
+            for (int i = 0; i < users.getSize(); i++) {
+                const std::optional userData = users.getDataAt(i);
+
+                if (userData == std::nullopt || !userData.has_value()) continue;
+
+                file << userData->id << ","
+                        << userData->name << ","
+                        << userData->username << ","
+                        << userData->points << ","
+                        << userData->phone_number << ","
+                        << userData->otp_id << ","
+                        << userData->role << ","
+                        << userData->password_hash << ","
+                        << userData->salt << ","
+                        << userData->email << ","
+                        << userData->dob << ","
+                        << userData->created_at << ","
+                        << userData->updated_at;
+
+                if (i < users.getSize() - 1) {
+                    file << "\n";
+                }
+            }
+        }
+
+
+        void insertUser(const User &user) {
+            // TODO;
+            users.insert(user);
+        }
+
+        User getData() {
+            return *users.getDataAt(0);
+        }
     };
 }
 
