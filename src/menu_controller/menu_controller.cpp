@@ -15,6 +15,13 @@ void MenuController::showGuestMenu() {
     std::cout << "0. 🚪 Exit" << std::endl;
 }
 
+void MenuController::showLoginMenu() {
+    std::cout << "\n=== Login ===" << std::endl;
+    std::cout << "Enter your username: " << std::endl;
+    std::cin.ignore();
+}
+
+
 void MenuController::displayMenu() {
     user_mgmt::UserManagement *current_user = user_mgmt::UserManagement::getInstance();
 
@@ -75,12 +82,14 @@ int MenuController::getUserInput() {
 }
 
 void MenuController::processChoice(const int value) {
-    if (value == 1) {
-        std::cout << "\n=== Hello ===" << std::endl;
-    }
-
-    if (value == 0) {
-        exit();
+    switch (value) {
+        case 1:
+            showLoginMenu();
+        case 2:
+            showGuestMenu();
+        case 0:
+        default:
+            exit();
     }
 }
 

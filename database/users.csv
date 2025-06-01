@@ -1,2 +1,2 @@
 id,name,username,points,phone_number,otp_id,role,password_hash,email,dob,created_at,updated_at
-1,root,root,,,,admin,,,,,
+1,root,root,null,null,null,admin,null,null,null,null,null

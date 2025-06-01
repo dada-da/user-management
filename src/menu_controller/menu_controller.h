@@ -13,13 +13,13 @@ class MenuController {
     static bool exitRequested;
 
 public:
-    MenuController();
-
     ~MenuController() = default;
 
     static void displayMenu();
 
     static void showGuestMenu();
+
+    static void showLoginMenu();
 
     static int getUserInput();
 
