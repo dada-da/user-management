@@ -4,4 +4,3 @@
 
 #include "password_manager.h"
 
-PasswordManager::maxInteration = 1500;
