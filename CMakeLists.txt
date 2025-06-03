@@ -12,8 +12,6 @@ add_custom_target(copy_database_files ALL
 
 set(SOURCES
         src/main.cpp
-        src/user/customer.h
-        src/user/admin.h
         src/user_management/user_management.cpp
         src/user_management/user_management.h
         src/role/role.cpp
@@ -22,9 +20,13 @@ set(SOURCES
         src/menu_controller/menu_controller.h
         src/user_data/user_data.h
         src/user_data/user_data.cpp
-        src/utils/password_manager/password_manager.cpp
-        src/utils/password_manager/password_manager.h
         src/utils/list/list.h
+        src/service/authentication/authentication_service.cpp
+        src/service/authentication/authentication_service.h
+        src/utils/password_handler/password_handler.cpp
+        src/utils/password_handler/password_handler.h
+        src/user_data/interface_user_data.h
+        src/service/authentication/interface_authentication_service.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

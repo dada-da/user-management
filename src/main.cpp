@@ -11,7 +11,7 @@ int main() {
 
     auto userData = db_user::UserData();
 
-    userData.readUsersFromFile();
+    userData.loadFromFile();
 
     MenuController::init();
 

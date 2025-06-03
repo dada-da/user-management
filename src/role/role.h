@@ -5,8 +5,6 @@
 #ifndef ROLE_H
 #define ROLE_H
 
-#include <string>
-
 class UserRoles {
 public:
     static const std::string ADMIN;

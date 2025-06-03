@@ -2,26 +2,57 @@
 #define USER_H
 
 #include <string>
-
 #include "../role/role.h"
 
+namespace db_user {
+    class IUserDatabase;
+    class UserData;
+}
+
 class User {
+protected:
+    int id;
     std::string username;
-    std::string name;
-    std::string email;
-    std::string password;
+    std::string passwordHash;
+    std::string salt;
     std::string role;
+    std::string otpId;
+    std::string name;
+    std::string phoneNumber;
+    std::string email;
+    std::string dob;
+    int points;
     bool active;
+    std::string updatedAt;
+    std::string createdAt;
+
+    friend class db_user::IUserDatabase;
+    friend class db_user::UserData;
+    template<typename T>
+    friend class List;
 
 public:
-    User(const std::string &username,
-         const std::string &name,
-         const std::string &email,
-         const std::string &password,
-         const std::string &role,
-         const bool active)
-        : username(username), name(name), email(email),
-          password(password), role(role), active(active) {
+    User() = default;
+
+    User(
+        const int &id,
+        const std::string &username,
+        const std::string &password,
+        const std::string &salt,
+        const std::string &role,
+        const std::string &otpId,
+        const std::string &name,
+        const std::string &phoneNumber,
+        const std::string &email,
+        const std::string &dob,
+        const int points,
+        const bool active,
+        const std::string &updatedAt,
+        const std::string &createdAt
+    )
+        : id(id), username(username), passwordHash(password), salt(salt), role(role), otpId(otpId),
+          name(name), phoneNumber(phoneNumber), email(email), dob(dob), points(points), active(active),
+          createdAt(createdAt), updatedAt(updatedAt) {
     }
 
     std::string getUsername() const {
@@ -37,7 +68,11 @@ public:
     }
 
     std::string getPassword() const {
-        return password;
+        return passwordHash;
+    }
+
+    std::string getSalt() const {
+        return salt;
     }
 
     std::string getRole() const {
@@ -48,7 +83,7 @@ public:
         return active;
     }
 
-    void setRole(const std::string role) {
+    void setRole(const std::string &role) {
         this->role = role;
     }
 
@@ -65,14 +100,12 @@ public:
     }
 
     void setPassword(const std::string &password) {
-        this->password = password;
+        this->passwordHash = password;
     }
 
     bool isAdmin() const {
         return this->role == UserRoles::ADMIN;
     }
-
-    ~User() = default;
 };
 
 #endif // USER_H

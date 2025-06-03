@@ -46,6 +46,16 @@ class List {
         return -1;
     }
 
+    template<typename PropertyType>
+    int findIndexByProperty(PropertyType T::*property, const PropertyType &value) {
+        for (int i = 0; i < size; i++) {
+            if (data[i].*property == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 public:
     List() : data(nullptr), size(0), capacity(0) {
     }
@@ -114,6 +124,17 @@ public:
         return data[index];
     }
 
+    template<typename PropertyType>
+    std::optional<T> findByProperty(PropertyType T::*property, const PropertyType &value) {
+        const int index = findIndexByProperty(property, value);
+
+        if (index == -1) {
+            return std::nullopt;
+        }
+
+        return data[index];
+    }
+
 
     int getSize() const {
         return size;
@@ -122,7 +143,6 @@ public:
     int getCapacity() const {
         return capacity;
     }
-
 
     bool isEmpty() const {
         return this->size == 0;
