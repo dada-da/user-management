@@ -6,6 +6,7 @@
 #define AUTHENTICATION_SERVICE_H
 
 #include "../../user_data/user_data.h"
+#include "../../user/user.h"
 #include "./interface_authentication_service.h"
 
 namespace auth {
@@ -19,7 +20,7 @@ namespace auth {
                                                                       passwordHandler(pwHandler) {
         };
 
-        AuthResult authenticateUser(const std::string &username, const std::string &password) override;
+        data::User authenticateUser(const std::string &username, const std::string &password) override;
     };
 }
 

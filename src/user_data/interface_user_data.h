@@ -16,15 +16,15 @@ namespace db_user {
 
         virtual void loadFromFile() = 0;
 
-        virtual std::optional<User> findUserByUsername(const std::string &username) = 0;
+        virtual std::optional<data::User> findUserByUsername(const std::string &username) = 0;
 
-        virtual void insertUser(const User &user) = 0;
+        virtual void insertUser(const data::User &user) = 0;
 
-        virtual bool updateUser(const User &user) = 0;
+        virtual bool updateUser(const data::User &user) = 0;
 
         virtual bool deleteUser(int userId) = 0;
 
-        virtual std::optional<User> findUserById(int id) = 0;
+        virtual std::optional<data::User> findUserById(int id) = 0;
     };
 }
 

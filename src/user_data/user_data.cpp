@@ -27,7 +27,7 @@ namespace db_user {
                 continue;
             }
 
-            User user = parseLine(line);
+            data::User user = parseLine(line);
             users.insert(user);
         }
 
@@ -46,24 +46,24 @@ namespace db_user {
                 "id,name,username,points,phone_number,otp_id,role,password_hash,salt,email,dob,created_at,updated_at,active\n";
 
         for (int i = 0; i < users.getSize(); i++) {
-            const std::optional userData = users.getDataAt(i);
+            const std::optional<data::User> userData = users.getDataAt(i);
 
             if (userData == std::nullopt || !userData.has_value()) continue;
 
-            file << userData->id << ","
-                    << userData->name << ","
-                    << userData->username << ","
-                    << userData->points << ","
-                    << userData->phoneNumber << ","
-                    << userData->otpId << ","
-                    << userData->role << ","
-                    << userData->passwordHash << ","
-                    << userData->salt << ","
-                    << userData->email << ","
-                    << userData->dob << ","
-                    << userData->createdAt << ","
-                    << userData->updatedAt << ","
-                    << (userData->active ? "true" : "false");
+            file << userData->getId() << ","
+                    << userData->getName() << ","
+                    << userData->getUsername() << ","
+                    << userData->getPoints() << ","
+                    << userData->getPhoneNumber() << ","
+                    << userData->getOtpId() << ","
+                    << userData->getRole() << ","
+                    << userData->getPassword() << ","
+                    << userData->getSalt() << ","
+                    << userData->getEmail() << ","
+                    << userData->getDob() << ","
+                    << userData->getCreatedAt() << ","
+                    << userData->getUpdatedAt() << ","
+                    << (userData->isActive() ? "true" : "false");
 
             if (i < users.getSize() - 1) {
                 file << "\n";
@@ -71,28 +71,28 @@ namespace db_user {
         }
     }
 
-    std::optional<User> UserData::findUserByUsername(const std::string &username) {
-        return users.findByProperty(&User::username, username);
+    std::optional<data::User> UserData::findUserByUsername(const std::string &username) {
+        return users.findByProperty(&data::User::getUsername, username);
     }
 
-    void UserData::insertUser(const User &user) {
+    void UserData::insertUser(const data::User &user) {
         //TO DO
     }
 
-    bool UserData::updateUser(const User &user) {
+    bool UserData::updateUser(const data::User &user) {
         //TO DO
         return false;
-    };
+    }
 
     bool UserData::deleteUser(int userId) {
         //TO DO
         return false;
-    };
+    }
 
-    std::optional<User> UserData::findUserById(int id) {
+    std::optional<data::User> UserData::findUserById(int id) {
         //TO DO
         return std::nullopt;
-    };
+    }
 
     const std::string UserData::filePath = "./database/users.csv";
 }

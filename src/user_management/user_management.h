@@ -9,12 +9,14 @@
 #include <memory>
 
 #include "../user/user.h"
+#include "../service/authentication/interface_authentication_service.h"
 
 namespace user_mgmt {
     class UserManagement {
         static std::unique_ptr<UserManagement> pinstance;
         static std::mutex mutex;
-        std::unique_ptr<User> currentUser;
+        std::unique_ptr<data::User> currentUser;
+        static auth::IAuthenticationService *authService;
 
     protected:
         UserManagement() = default;
@@ -22,11 +24,19 @@ namespace user_mgmt {
     public:
         ~UserManagement() = default;
 
-        static UserManagement *getInstance() {
+        static UserManagement *getInstance(auth::IAuthenticationService *authInstance = nullptr) {
             std::lock_guard lock(mutex);
-            if (pinstance == nullptr) {
-                pinstance = std::unique_ptr<UserManagement>(new UserManagement());
+
+            if (pinstance != nullptr && authService != nullptr) return pinstance.get();
+
+            if (authService == nullptr && authInstance == nullptr) {
+                throw std::invalid_argument("Authentication service must be provided on first initialization");
             }
+
+            pinstance = std::unique_ptr<UserManagement>(new UserManagement());
+
+            authService = authInstance;
+
             return pinstance.get();
         };
 
@@ -85,6 +95,19 @@ namespace user_mgmt {
             }
 
             return this->currentUser->getUsername().empty();
+        }
+
+        void login(const std::string &username, const std::string &password) const {
+            std::lock_guard lock(mutex);
+            try {
+                if (this->currentUser != nullptr) {
+                    throw std::runtime_error("User already logged in");
+                }
+                const data::User user = authService->authenticateUser(username, password);
+                this->currentUser->setUser(user);
+            } catch (const std::exception &e) {
+                throw std::runtime_error(e.what());
+            }
         }
     };
 }

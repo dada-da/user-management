@@ -5,30 +5,33 @@
 #ifndef MENU_CONTROLLER_H
 #define MENU_CONTROLLER_H
 
-#include <string>
-#include <vector>
-#include <functional>
+#include "menu_list.h"
 
-class MenuController {
-    static bool exitRequested;
+namespace menu {
+    class MenuController {
+        static bool exitRequested;
 
-public:
-    ~MenuController() = default;
+    public:
+        ~MenuController() = default;
 
-    static void displayMenu();
+        static void showMenu(const Menu &menu);
 
-    static void showGuestMenu();
+        static void displayActionMenu(MenuId value);
 
-    static void showLoginMenu();
+        static void displayMenu();
 
-    static int getUserInput();
+        static void showGuestMenu();
 
-    static void processChoice(int value);
+        static void showLoginMenu();
 
-    static void exit();
+        static int getUserInput();
 
-    static void init();
-};
+        static void processChoice(int value);
 
+        static void exit();
+
+        static void init();
+    };
+}
 
 #endif //MENU_CONTROLLER_H

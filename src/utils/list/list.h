@@ -47,9 +47,10 @@ class List {
     }
 
     template<typename PropertyType>
-    int findIndexByProperty(PropertyType T::*property, const PropertyType &value) {
-        for (int i = 0; i < size; i++) {
-            if (data[i].*property == value) {
+    int findIndexByProperty(PropertyType (T::*getter)() const, const PropertyType &value) {
+        for (int i = 0; i < size; ++i) {
+            if ((data[i].*getter)() == value) {
+                // Call the getter function
                 return i;
             }
         }
@@ -125,13 +126,11 @@ public:
     }
 
     template<typename PropertyType>
-    std::optional<T> findByProperty(PropertyType T::*property, const PropertyType &value) {
-        const int index = findIndexByProperty(property, value);
-
+    std::optional<T> findByProperty(PropertyType (T::*getter)() const, const PropertyType &value) {
+        const int index = findIndexByProperty(getter, value);
         if (index == -1) {
             return std::nullopt;
         }
-
         return data[index];
     }
 

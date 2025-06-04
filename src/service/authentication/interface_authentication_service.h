@@ -6,6 +6,7 @@
 #define INTERFACE_AUTHENTICATION_SERVICE_H
 
 #include <string>
+#include "../../user/user.h"
 
 namespace auth {
     enum class AuthResult {
@@ -20,7 +21,7 @@ namespace auth {
     public:
         virtual ~IAuthenticationService() = default;
 
-        virtual AuthResult authenticateUser(const std::string &username, const std::string &password) = 0;
+        virtual data::User authenticateUser(const std::string &username, const std::string &password) = 0;
     };
 }
 

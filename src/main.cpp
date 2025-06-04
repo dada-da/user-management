@@ -7,13 +7,13 @@
 using namespace std;
 
 int main() {
-    user_mgmt::UserManagement *current_user = user_mgmt::UserManagement::getInstance();
-
     auto userData = db_user::UserData();
 
     userData.loadFromFile();
 
-    MenuController::init();
+    // user_mgmt::UserManagement *current_user = user_mgmt::UserManagement::getInstance();
+
+    menu::MenuController::init();
 
     return 0;
 }

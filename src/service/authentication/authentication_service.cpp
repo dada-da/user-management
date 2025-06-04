@@ -6,20 +6,20 @@
 #include "../authentication/authentication_service.h"
 
 namespace auth {
-    AuthResult AuthenticationService::authenticateUser(const std::string &username, const std::string &password) {
-        const auto user = userDatabase->findUserByUsername(username);
+    data::User AuthenticationService::authenticateUser(const std::string &username, const std::string &password) {
+        auto user = userDatabase->findUserByUsername(username);
         if (!user.has_value()) {
-            return AuthResult::USER_NOT_FOUND;
+            throw std::runtime_error("Username not found");
         }
 
         if (!user->isActive()) {
-            return AuthResult::ACCOUNT_NOT_ACTIVE;
+            throw std::runtime_error("User is not active");
         }
 
         if (!passwordHandler->comparePassword(password, user->getPassword(), user->getSalt())) {
-            return AuthResult::AUTHENTICATION_FAILED;
+            throw std::runtime_error("Password is wrong");
         }
 
-        return AuthResult::SUCCESS;
+        return user.value();
     }
 }
