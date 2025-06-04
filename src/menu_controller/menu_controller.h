@@ -30,7 +30,7 @@ namespace menu {
 
         void processChoice(int choice, const Menu &menu);
 
-        void executeMenuAction(const MenuItem &item);
+        void executeAction(ActionType actionType);
 
         void handleInvalidChoice(int choice) const;
 

@@ -12,8 +12,8 @@
 #include "menu_list.h"
 
 namespace menu {
-
-    MenuController::MenuController() : exitRequested(false), currentMenuId(MenuId::MAIN_MENU) {}
+    MenuController::MenuController() : exitRequested(false), currentMenuId(MenuId::MAIN_MENU) {
+    }
 
     void MenuController::displayMenu(const Menu &menu) const {
         std::cout << "\n================================\n";
@@ -24,7 +24,7 @@ namespace menu {
 
         std::cout << "\n--------------------------------\n";
 
-        for (const auto &item : menu.items) {
+        for (const auto &item: menu.items) {
             std::cout << item.id << ". " << item.label << std::endl;
         }
         std::cout << "--------------------------------\n";
@@ -37,11 +37,11 @@ namespace menu {
             const auto userManager = user_mgmt::UserManagement::getInstance();
             if (userManager && userManager->isLoggedIn()) {
                 std::cout << userManager->getUserName() << " ("
-                         << userManager->getRole() << ")";
+                        << userManager->getRole() << ")";
             } else {
                 std::cout << "Not logged in";
             }
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             std::cout << "Not logged in";
         }
     }
@@ -81,7 +81,7 @@ namespace menu {
         while (!exitRequested) {
             try {
                 runMenuLoop();
-            } catch (const std::exception& e) {
+            } catch (const std::exception &e) {
                 std::cerr << "❌ Error: " << e.what() << std::endl;
                 std::cout << "Press Enter to continue...";
                 std::cin.get();
@@ -125,40 +125,84 @@ namespace menu {
         }
     }
 
-    void MenuController::processChoice(int choice, const Menu& menu) {
-        auto itemIt = std::find_if(menu.items.begin(), menu.items.end(),
-            [choice](const MenuItem& item) { return item.id == choice; });
+    void MenuController::processChoice(int choice, const Menu &menu) {
+        const auto itemIt = std::find_if(menu.items.begin(), menu.items.end(),
+                                         [choice](const MenuItem &item) { return item.id == choice; });
 
         if (itemIt != menu.items.end()) {
-            executeMenuAction(*itemIt);
+            executeAction(itemIt->action);
         } else {
             handleInvalidChoice(choice);
         }
     }
 
-    void MenuController::executeMenuAction(const MenuItem& item) {
+    void MenuController::executeAction(const ActionType actionType) {
         try {
-            if (item.action) {
-                std::cout << "\n🔄 Executing: " << item.label << "...\n";
-                item.action();
-            } else {
-                std::cout << "\n⚠️  " << item.label << " - Function not implemented yet.\n";
+            switch (actionType) {
+                case ActionType::LOGIN:
+                    //TO DO
+                    break;
+                case ActionType::REGISTER:
+                    //TO DO
+                    break;
+                case ActionType::EXIT:
+                    exit();
+                    break;
+                case ActionType::ACCOUNT_DETAIL:
+                    //TO DO
+                    break;
+                case ActionType::TRANSFER_POINTS:
+                    //TO DO
+                    break;
+                case ActionType::LOGOUT:
+                    //TO DO
+                    break;
+                case ActionType::VIEW_PROFILE:
+                    //TO DO
+                    break;
+                case ActionType::UPDATE_PROFILE:
+                    //TO DO
+                    break;
+                case ActionType::CHANGE_PASSWORD:
+                    //TO DO
+                    break;
+                case ActionType::POINTS_HISTORY:
+                    //TO DO
+                    break;
+                case ActionType::BACK:
+                    //TO DO
+                    break;
+                case ActionType::CREATE_USER:
+                    //TO DO
+                    break;
+                case ActionType::DELETE_USER:
+                    //TO DO
+                    break;
+                case ActionType::SEARCH_USER:
+                    //TO DO
+                    break;
+                case ActionType::RESET_PASSWORD:
+                    //TO DO
+                    break;
+                case ActionType::NONE:
+                default:
+                    std::cout << "\n⚠️ Function not implemented yet.\n";
+                    break;
             }
-        } catch (const std::exception& e) {
-            std::cerr << "❌ Error executing " << item.label << ": " << e.what() << std::endl;
+        } catch (const std::exception &e) {
+            std::cerr << "❌ Error executing action: " << e.what() << std::endl;
         }
     }
 
     void MenuController::handleInvalidChoice(int choice) const {
         std::cout << "\n❌ Invalid choice: " << choice
-                  << ". Please select a valid option.\n";
+                << ". Please select a valid option.\n";
     }
 
     bool MenuController::isExitRequested() const {
         return exitRequested;
     }
 
-    // Navigation helpers
     void MenuController::navigateToMenu(MenuId menuId) {
         setCurrentMenu(menuId);
         std::cout << "\n📍 Navigating to new menu...\n";
