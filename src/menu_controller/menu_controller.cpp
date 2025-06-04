@@ -5,120 +5,167 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <limits>
 
 #include "menu_controller.h"
-#include "../role/role.h"
 #include "../user_management/user_management.h"
 #include "menu_list.h"
 
 namespace menu {
-    void MenuController::showMenu(const Menu &menu) {
-        for (const auto &[id, label, _]: menu.items) {
-            std::cout << id << ". " << label << std::endl;
+
+    MenuController::MenuController() : exitRequested(false), currentMenuId(MenuId::MAIN_MENU) {}
+
+    void MenuController::displayMenu(const Menu &menu) const {
+        std::cout << "\n================================\n";
+        std::cout << "    Payment System\n";
+        std::cout << "===============================\n";
+
+        displayUserStatus();
+
+        std::cout << "\n--------------------------------\n";
+
+        for (const auto &item : menu.items) {
+            std::cout << item.id << ". " << item.label << std::endl;
         }
+        std::cout << "--------------------------------\n";
     }
 
-    void MenuController::displayActionMenu(const MenuId value) {
-        switch (value) {
-            case MenuId::CUSTOMER_MENU:
-                showMenu(CUSTOMER_MENU);
-                return;
-            case MenuId::ACCOUNT_DETAIL:
-                showMenu(ACCOUNT_DETAIL);
-                return;
-            case MenuId::ADMIN_MENU:
-                showMenu(ADMIN_MENU);
-                return;
-            case MenuId::MAIN_MENU:
-            default:
-                showMenu(MAIN_MENU);
-        }
-    }
-
-    void MenuController::showGuestMenu() {
-        std::cout << "\n=== Guest Menu ===" << std::endl;
-        std::cout << "1. 🔐 Login" << std::endl;
-        std::cout << "2. 📝 Register" << std::endl;
-        std::cout << "0. 🚪 Exit" << std::endl;
-    }
-
-    void MenuController::showLoginMenu() {
-        std::cout << "\n=== Login ===" << std::endl;
-        std::cout << "Enter your username: " << std::endl;
-        std::cin.ignore();
-    }
-
-
-    void MenuController::displayMenu() {
-        user_mgmt::UserManagement *current_user = user_mgmt::UserManagement::getInstance();
-
-        if (current_user == nullptr || !current_user->isLoggedIn()) {
-            showGuestMenu();
-
-            return;
-        }
+    void MenuController::displayUserStatus() const {
+        std::cout << "Current Status: ";
 
         try {
-            const std::string userRole = current_user->getRole();
-
-            if (userRole == UserRoles::ADMIN) {
-                std::cout << "\n=== Admin ===" << std::endl;
-                return;
+            const auto userManager = user_mgmt::UserManagement::getInstance();
+            if (userManager && userManager->isLoggedIn()) {
+                std::cout << userManager->getUserName() << " ("
+                         << userManager->getRole() << ")";
+            } else {
+                std::cout << "Not logged in";
             }
-
-            if (userRole == UserRoles::CUSTOMER) {
-                std::cout << "\n=== Customer ===" << std::endl;
-                return;
-            }
-
-            showGuestMenu();
-        } catch (const std::runtime_error &e) {
-            std::cerr << "❌ Error getting user role: " << e.what() << std::endl;
-            showGuestMenu();
+        } catch (const std::exception& e) {
+            std::cout << "Not logged in";
         }
+    }
+
+    Menu MenuController::getMenuList(MenuId menuId) const {
+        switch (menuId) {
+            case MenuId::CUSTOMER_MENU:
+                return CUSTOMER_MENU;
+            case MenuId::ACCOUNT_DETAIL:
+                return ACCOUNT_DETAIL;
+            case MenuId::ADMIN_MENU:
+                return ADMIN_MENU;
+            case MenuId::MAIN_MENU:
+            default:
+                return MAIN_MENU;
+        }
+    }
+
+    Menu MenuController::getCurrentMenu() const {
+        return getMenuList(currentMenuId);
+    }
+
+    void MenuController::setCurrentMenu(MenuId menuId) {
+        currentMenuId = menuId;
+    }
+
+    void MenuController::displayWelcomeMessage() const {
+        std::cout << "\n🎉 Welcome to Payment System!\n";
+        std::cout << "📋 Default accounts:\n";
+        std::cout << "  👑 Admin: username='root', password='root'\n";
+        std::cout << "  👤 User: username='customer', password='customer'\n";
     }
 
     void MenuController::init() {
+        displayWelcomeMessage();
+
         while (!exitRequested) {
-            displayMenu();
-
-            const int choice = getUserInput();
-
-            processChoice(choice);
+            try {
+                runMenuLoop();
+            } catch (const std::exception& e) {
+                std::cerr << "❌ Error: " << e.what() << std::endl;
+                std::cout << "Press Enter to continue...";
+                std::cin.get();
+            }
         }
+
+        displayExitMessage();
+    }
+
+    void MenuController::runMenuLoop() {
+        const Menu currentMenu = getCurrentMenu();
+        displayMenu(currentMenu);
+
+        const int choice = getUserInput();
+        processChoice(choice, currentMenu);
+    }
+
+    void MenuController::displayExitMessage() const {
+        std::cout << "\n👋 Thank you for using Payment System!\n";
+        std::cout << "💫 Have a great day!\n";
     }
 
     void MenuController::exit() {
         exitRequested = true;
     }
 
-    int MenuController::getUserInput() {
+    int MenuController::getUserInput() const {
         int choice;
-        std::cout << "\n👉 Enter your choice: ";
 
-        while (!(std::cin >> choice)) {
+        while (true) {
+            std::cout << "\n👉 Enter your choice: ";
+
+            if (std::cin >> choice) {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return choice;
+            }
+
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "❌ Invalid input! Please enter a number." << std::endl;
-            std::cout << "👉 Enter your choice: ";
-        }
-
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return choice;
-    }
-
-    void MenuController::processChoice(const int value) {
-        switch (value) {
-            case 1:
-                showLoginMenu();
-            case 2:
-                showGuestMenu();
-            case 0:
-            default:
-                exit();
+            std::cout << "❌ Invalid input! Please enter a valid number.\n";
         }
     }
 
-    bool MenuController::exitRequested = false;
+    void MenuController::processChoice(int choice, const Menu& menu) {
+        auto itemIt = std::find_if(menu.items.begin(), menu.items.end(),
+            [choice](const MenuItem& item) { return item.id == choice; });
+
+        if (itemIt != menu.items.end()) {
+            executeMenuAction(*itemIt);
+        } else {
+            handleInvalidChoice(choice);
+        }
+    }
+
+    void MenuController::executeMenuAction(const MenuItem& item) {
+        try {
+            if (item.action) {
+                std::cout << "\n🔄 Executing: " << item.label << "...\n";
+                item.action();
+            } else {
+                std::cout << "\n⚠️  " << item.label << " - Function not implemented yet.\n";
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "❌ Error executing " << item.label << ": " << e.what() << std::endl;
+        }
+    }
+
+    void MenuController::handleInvalidChoice(int choice) const {
+        std::cout << "\n❌ Invalid choice: " << choice
+                  << ". Please select a valid option.\n";
+    }
+
+    bool MenuController::isExitRequested() const {
+        return exitRequested;
+    }
+
+    // Navigation helpers
+    void MenuController::navigateToMenu(MenuId menuId) {
+        setCurrentMenu(menuId);
+        std::cout << "\n📍 Navigating to new menu...\n";
+    }
+
+    void MenuController::goBack() {
+        setCurrentMenu(MenuId::MAIN_MENU);
+        std::cout << "\n🔙 Returning to main menu...\n";
+    }
 }

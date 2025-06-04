@@ -11,12 +11,8 @@
 
 #include "password_handler.h"
 
-class PasswordHandler : public pw_util::IPasswordHandler {
-    static constexpr int maxInteration = 1500;
-    static constexpr int saltLength = 16;
-    static constexpr std::string secretKey = "SecretKey:))";
-
-    static std::string createStrongerHash(const std::string &input) {
+namespace pw_util {
+    std::string PasswordHandler::createStrongerHash(const std::string &input) {
         std::string result = input;
 
         for (int i = 0; i < maxInteration; ++i) {
@@ -33,8 +29,7 @@ class PasswordHandler : public pw_util::IPasswordHandler {
         return result;
     }
 
-public:
-    std::string generateSalt() {
+    std::string PasswordHandler::generateSalt() {
         const std::string basicChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
         const auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -48,15 +43,16 @@ public:
         return salt;
     }
 
-    std::string getHashPassword(const std::string &password, const std::string &salt) {
+    std::string PasswordHandler::getHashPassword(const std::string &password, const std::string &salt) {
         const std::string saltedPassword = password + salt + secretKey;
         return createStrongerHash(saltedPassword);
     }
 
-    bool comparePassword(const std::string &plainPassword,
-                         const std::string &hashedPassword,
-                         const std::string &salt) {
+
+    bool PasswordHandler::comparePassword(const std::string &plainPassword,
+                                          const std::string &hashedPassword,
+                                          const std::string &salt) {
         const std::string hashedInput = getHashPassword(plainPassword, salt);
         return hashedInput == hashedPassword;
     }
-};
+}

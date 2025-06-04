@@ -9,29 +9,48 @@
 
 namespace menu {
     class MenuController {
-        static bool exitRequested;
+        bool exitRequested;
+        MenuId currentMenuId;
+
+        void displayMenu(const Menu &menu) const;
+
+        void displayUserStatus() const;
+
+        void displayWelcomeMessage() const;
+
+        void displayExitMessage() const;
+
+        Menu getMenuList(MenuId menuId = MenuId::MAIN_MENU) const;
+
+        Menu getCurrentMenu() const;
+
+        void setCurrentMenu(MenuId menuId);
+
+        int getUserInput() const;
+
+        void processChoice(int choice, const Menu &menu);
+
+        void executeMenuAction(const MenuItem &item);
+
+        void handleInvalidChoice(int choice) const;
+
+        void runMenuLoop();
 
     public:
+        MenuController();
+
         ~MenuController() = default;
 
-        static void showMenu(const Menu &menu);
+        void init();
 
-        static void displayActionMenu(MenuId value);
+        void exit();
 
-        static void displayMenu();
+        bool isExitRequested() const;
 
-        static void showGuestMenu();
+        void navigateToMenu(MenuId menuId);
 
-        static void showLoginMenu();
-
-        static int getUserInput();
-
-        static void processChoice(int value);
-
-        static void exit();
-
-        static void init();
+        void goBack();
     };
 }
 
-#endif //MENU_CONTROLLER_H
+#endif // MENU_CONTROLLER_H
