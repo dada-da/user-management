@@ -59,11 +59,11 @@ namespace db_user {
                     << userData->getRole() << ","
                     << userData->getPassword() << ","
                     << userData->getSalt() << ","
+                    << (userData->isActive() ? "true" : "false") << ","
                     << userData->getEmail() << ","
                     << userData->getDob() << ","
                     << userData->getCreatedAt() << ","
-                    << userData->getUpdatedAt() << ","
-                    << (userData->isActive() ? "true" : "false");
+                    << userData->getUpdatedAt() << ",";
 
             if (i < users.getSize() - 1) {
                 file << "\n";

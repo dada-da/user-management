@@ -2,7 +2,7 @@
 // Created by Da on 3/6/25.
 //
 
-#include "../../utils/password_handler/password_handler.h"
+#include "../password_handler/password_handler.h"
 #include "../authentication/authentication_service.h"
 
 namespace auth {

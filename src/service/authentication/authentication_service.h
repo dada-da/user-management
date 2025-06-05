@@ -8,7 +8,7 @@
 #include "../../user_data/user_data.h"
 #include "../../user/user.h"
 #include "./interface_authentication_service.h"
-#include "../../utils/password_handler/password_handler.h"
+#include "../password_handler/password_handler.h"
 
 namespace auth {
     class AuthenticationService : public IAuthenticationService {

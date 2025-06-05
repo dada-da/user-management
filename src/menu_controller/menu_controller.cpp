@@ -8,13 +8,10 @@
 #include <limits>
 
 #include "menu_controller.h"
-#include "../user_management/user_management.h"
 #include "menu_list.h"
+#include "../user_management/user_management.h"
 
 namespace menu {
-    MenuController::MenuController() : exitRequested(false), currentMenuId(MenuId::MAIN_MENU) {
-    }
-
     void MenuController::displayMenu(const Menu &menu) const {
         std::cout << "\n================================\n";
         std::cout << "    Payment System\n";
@@ -46,7 +43,7 @@ namespace menu {
         }
     }
 
-    Menu MenuController::getMenuList(MenuId menuId) const {
+    Menu MenuController::getMenuList(const MenuId menuId) const {
         switch (menuId) {
             case MenuId::CUSTOMER_MENU:
                 return CUSTOMER_MENU;
@@ -140,7 +137,7 @@ namespace menu {
         try {
             switch (actionType) {
                 case ActionType::LOGIN:
-                    //TO DO
+                    pMenuAction->login();
                     break;
                 case ActionType::REGISTER:
                     //TO DO
@@ -190,7 +187,7 @@ namespace menu {
                     break;
             }
         } catch (const std::exception &e) {
-            std::cerr << "❌ Error executing action: " << e.what() << std::endl;
+            std::cerr << "\n ❌ Error executing action: " << e.what() << std::endl;
         }
     }
 

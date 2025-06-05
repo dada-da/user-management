@@ -38,11 +38,12 @@ namespace db_user {
                 user.setRole((fields[6] == "null") ? "" : fields[6]);
                 user.setPassword(fields[7]);
                 user.setSalt(fields[8]);
-                user.setEmail(fields[9]);
-                user.setDob(fields[10]);
-                user.setCreatedAt(fields[11]);
-                user.setUpdatedAt(fields[12]);
-                user.setActive(fields.size() > 13 && fields[13] == "true");
+                user.setActive(fields[9] == "true");
+                user.setEmail(fields[10]);
+                user.setDob(fields[11]);
+                user.setCreatedAt(fields[12]);
+                user.setUpdatedAt(fields[13]);
+                user.setUpdatedAt(fields[14]);
             }
 
             return user;

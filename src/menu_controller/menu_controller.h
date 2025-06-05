@@ -6,11 +6,13 @@
 #define MENU_CONTROLLER_H
 
 #include "menu_list.h"
+#include "../service/menu_action/interface_menu_action.h"
 
 namespace menu {
     class MenuController {
         bool exitRequested;
         MenuId currentMenuId;
+        IMenuAction *pMenuAction;
 
         void displayMenu(const Menu &menu) const;
 
@@ -37,7 +39,9 @@ namespace menu {
         void runMenuLoop();
 
     public:
-        MenuController();
+        MenuController(IMenuAction *pMenuAction) : exitRequested(false), currentMenuId(MenuId::MAIN_MENU),
+                                                   pMenuAction(pMenuAction) {
+        }
 
         ~MenuController() = default;
 
