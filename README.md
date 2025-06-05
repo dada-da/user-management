@@ -11,10 +11,11 @@
 
 ## Thành viên
 
-| Tên            | Mã SV       | Công việc được giao                                     |
-|----------------|-------------|---------------------------------------------------------|
-| Cao Đức Anh    | K24DTCN571  | - Phân tích dự án<br/> - Tạo dự án<br/>- Tạo menu chính |
-| Phạm Tuấn Minh | K24DTCN5608 | - Create, update, find user                             |
+| Tên              | Mã SV      | Công việc được giao                                     |
+|------------------|------------|---------------------------------------------------------|
+| Cao Đức Anh      | K24DTCN571 | - Phân tích dự án<br/> - Tạo dự án<br/>- Tạo menu chính |
+| Phạm Tuấn Minh   | K24DTCN608 | - Create, update, find user                             |
+| Dương Tất Trường | B24DTCN498 | - Thiết kế form đăng ký<br/> - Xem số dư điểm           |
 
 ## Phân tích dự án
 
@@ -23,6 +24,10 @@ Xem thêm ở [PROJECT_ANALYSIS.md](documents/PROJECT_ANALYSIS.md)
 ## Getting Started
 
 Xem thêm trong phần [SETUP.md](documents/SETUP.md) với các library và cách setup project
+
+## Phân công công việc
+
+[Xem thêm](https://docs.google.com/spreadsheets/d/1-x29EvMFm_eqyAuVhX4SIHtWX-yloaCkUFQpLmnnUdg/edit?usp=sharing)
 
 ## Project Structure
 
