@@ -19,7 +19,7 @@ int main() {
 
     user_mgmt::UserManagement::getInstance(&authService);
 
-    menu::MenuAction menuActionService = menu::MenuAction();
+    auto menuActionService = menu::MenuAction();
 
     menu::MenuController controller(&menuActionService);
 

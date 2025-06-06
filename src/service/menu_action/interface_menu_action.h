@@ -11,6 +11,10 @@ namespace menu {
         virtual ~IMenuAction() = default;
 
         virtual void login() = 0;
+
+        virtual void viewAccountDetail() = 0;
+
+        virtual void viewFullAccountInfo() = 0;
     };
 }
 

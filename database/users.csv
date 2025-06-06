@@ -1,3 +1,3 @@
 id,name,username,points,phone_number,otp_id,role,password_hash,salt,active,email,dob,created_at,updated_at
-1,root,root,null,null,null,admin,6f1c4b752e621acea9a05eb451b104d23853250b93ff8d13,g5GvcUsy@bg4Vz^S,true,null,null,null,null
-2,customer,customer,null,null,null,customer,11970201ac5917728656733e555c2f94605dc31ebac8880,g&nK82RgUBcb9s0N,true,null,null,null,null
+1,root,root,null,null,null,admin,1ca1ef501a1df23d1320c0fa056400e15e8724bd5f57204c,iPYa^PEqgAg6ck#L,true,null,null,null,null
+2,customer,customer,null,null,null,customer,cfa4b4ac941ac108686cc0d592ce675b8c6d05ca0d593dd0,S8^I#qLtSUj4QGWm,true,null,null,null,null

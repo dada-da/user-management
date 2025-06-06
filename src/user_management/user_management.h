@@ -66,7 +66,12 @@ namespace user_mgmt {
             currentUser.reset();
         }
 
-        std::string getUserName() {
+        data::User getCurrentUser() const {
+            std::lock_guard lock(mutex);
+            return *currentUser;
+        }
+
+        std::string getUserName() const {
             std::lock_guard lock(mutex);
 
             if (this->currentUser == nullptr) {
@@ -76,7 +81,7 @@ namespace user_mgmt {
             return this->currentUser->getUsername();
         }
 
-        std::string getRole() {
+        std::string getRole() const {
             std::lock_guard lock(mutex);
 
             if (this->currentUser == nullptr) {
@@ -86,25 +91,30 @@ namespace user_mgmt {
             return this->currentUser->getRole();
         }
 
-        bool isLoggedIn() const {
+        bool isAdmin() const {
             std::lock_guard lock(mutex);
 
+            return this->currentUser->isAdmin();
+        }
+
+        bool isLoggedIn() const {
+            std::lock_guard lock(mutex);
 
             if (this->currentUser == nullptr) {
                 return false;
             }
 
-            return this->currentUser->getUsername().empty();
+            return !this->currentUser->getUsername().empty();
         }
 
-        void login(const std::string &username, const std::string &password) const {
+        void login(const std::string &username, const std::string &password) {
             std::lock_guard lock(mutex);
             try {
                 if (this->currentUser != nullptr) {
                     throw std::runtime_error("User already logged in");
                 }
                 const data::User user = authService->authenticateUser(username, password);
-                this->currentUser->setUser(user);
+                this->currentUser = std::make_unique<data::User>(user);
             } catch (const std::exception &e) {
                 throw std::runtime_error(e.what());
             }

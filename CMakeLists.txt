@@ -33,6 +33,7 @@ set(SOURCES
         src/service/menu_action/interface_menu_action.h
         src/utils/validator/validator.cpp
         src/utils/validator/validator.h
+        src/utils/print/print_data.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

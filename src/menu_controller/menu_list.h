@@ -12,8 +12,9 @@ namespace menu {
     enum class MenuId {
         MAIN_MENU,
         CUSTOMER_MENU,
-        ACCOUNT_DETAIL,
-        ADMIN_MENU
+        ADMIN_MENU,
+        ADMIN_ACCOUNT,
+        CUSTOMER_ACCOUNT
     };
 
     enum class ActionType {
@@ -21,7 +22,6 @@ namespace menu {
         LOGIN,
         REGISTER,
         EXIT,
-        ACCOUNT_DETAIL,
         TRANSFER_POINTS,
         LOGOUT,
         VIEW_PROFILE,
@@ -32,7 +32,9 @@ namespace menu {
         CREATE_USER,
         DELETE_USER,
         SEARCH_USER,
-        RESET_PASSWORD
+        RESET_PASSWORD,
+        ADMIN_ACCOUNT,
+        CUSTOMER_ACCOUNT
     };
 
     struct MenuItem {
@@ -63,17 +65,17 @@ namespace menu {
     const Menu CUSTOMER_MENU = {
         MenuId::CUSTOMER_MENU,
         {
-            {1, "📋 Account Detail", ActionType::ACCOUNT_DETAIL},
+            {1, "📋 Account Detail", ActionType::CUSTOMER_ACCOUNT},
             {2, "💸 Transfer Points", ActionType::TRANSFER_POINTS},
             {3, "🔓 Logout", ActionType::LOGOUT},
             {0, "🚪 Exit", ActionType::EXIT}
         }
     };
 
-    const Menu ACCOUNT_DETAIL = {
-        MenuId::ACCOUNT_DETAIL,
+    const Menu CUSTOMER_ACCOUNT = {
+        MenuId::CUSTOMER_ACCOUNT,
         {
-            {1, "👤 View Profile", ActionType::VIEW_PROFILE},
+            {1, "👤 View Full Account Details", ActionType::VIEW_PROFILE},
             {2, "✏️ Update Profile", ActionType::UPDATE_PROFILE},
             {3, "🔒 Change Password", ActionType::CHANGE_PASSWORD},
             {4, "📈 Points History", ActionType::POINTS_HISTORY},
@@ -81,20 +83,31 @@ namespace menu {
         }
     };
 
+    const Menu ADMIN_ACCOUNT = {
+        MenuId::ADMIN_ACCOUNT,
+        {
+            {1, "👤 View Full Account Details", ActionType::VIEW_PROFILE},
+            {2, "✏️ Update Profile", ActionType::UPDATE_PROFILE},
+            {3, "🔒 Change Password", ActionType::CHANGE_PASSWORD},
+            {-1, "↩️ Back", ActionType::BACK}
+        }
+    };
+
     const Menu ADMIN_MENU = {
         MenuId::ADMIN_MENU,
         {
-            {1, "➕ Create User", ActionType::CREATE_USER},
-            {2, "🗑️ Delete User", ActionType::DELETE_USER},
-            {3, "🔍 Search User", ActionType::SEARCH_USER},
-            {4, "🔁 Reset User Password", ActionType::RESET_PASSWORD},
-            {5, "🔓 Logout", ActionType::LOGOUT},
+            {1, "📋 Account Detail", ActionType::ADMIN_ACCOUNT},
+            {2, "➕ Create User", ActionType::CREATE_USER},
+            {3, "🗑️ Delete User", ActionType::DELETE_USER},
+            {4, "🔍 Search User", ActionType::SEARCH_USER},
+            {5, "🔁 Reset User Password", ActionType::RESET_PASSWORD},
+            {6, "🔓 Logout", ActionType::LOGOUT},
             {0, "🚪 Exit", ActionType::EXIT}
         },
         true
     };
 
-    const Menu MENU_LIST[4] = {ACCOUNT_DETAIL, ADMIN_MENU, CUSTOMER_MENU, MAIN_MENU};
+    const Menu MENU_LIST[5] = {ADMIN_ACCOUNT, CUSTOMER_ACCOUNT, ADMIN_MENU, CUSTOMER_MENU, MAIN_MENU};
 }
 
 #endif //MENU_LIST_H

@@ -11,6 +11,10 @@ namespace menu {
     class MenuAction final : public IMenuAction {
     public:
         void login() override;
+
+        void viewAccountDetail() override;
+
+        void viewFullAccountInfo() override;
     };
 }
 

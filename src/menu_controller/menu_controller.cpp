@@ -47,10 +47,12 @@ namespace menu {
         switch (menuId) {
             case MenuId::CUSTOMER_MENU:
                 return CUSTOMER_MENU;
-            case MenuId::ACCOUNT_DETAIL:
-                return ACCOUNT_DETAIL;
+            case MenuId::CUSTOMER_ACCOUNT:
+                return CUSTOMER_ACCOUNT;
             case MenuId::ADMIN_MENU:
                 return ADMIN_MENU;
+            case MenuId::ADMIN_ACCOUNT:
+                return ADMIN_ACCOUNT;
             case MenuId::MAIN_MENU:
             default:
                 return MAIN_MENU;
@@ -58,10 +60,14 @@ namespace menu {
     }
 
     Menu MenuController::getCurrentMenu() const {
+        const auto userManager = user_mgmt::UserManagement::getInstance();
+        if (!userManager || !userManager->isLoggedIn()) {
+            return MAIN_MENU;
+        }
         return getMenuList(currentMenuId);
     }
 
-    void MenuController::setCurrentMenu(MenuId menuId) {
+    void MenuController::setCurrentMenu(const MenuId menuId) {
         currentMenuId = menuId;
     }
 
@@ -137,7 +143,12 @@ namespace menu {
         try {
             switch (actionType) {
                 case ActionType::LOGIN:
-                    pMenuAction->login();
+                    try {
+                        pMenuAction->login();
+                        setCurrentMenu(MenuId::ADMIN_MENU);
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::REGISTER:
                     //TO DO
@@ -145,7 +156,15 @@ namespace menu {
                 case ActionType::EXIT:
                     exit();
                     break;
-                case ActionType::ACCOUNT_DETAIL:
+                case ActionType::ADMIN_ACCOUNT:
+                    try {
+                        pMenuAction->viewAccountDetail();
+                        setCurrentMenu(MenuId::ADMIN_ACCOUNT);
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
+                    break;
+                case ActionType::CUSTOMER_ACCOUNT:
                     //TO DO
                     break;
                 case ActionType::TRANSFER_POINTS:
@@ -155,7 +174,12 @@ namespace menu {
                     //TO DO
                     break;
                 case ActionType::VIEW_PROFILE:
-                    //TO DO
+                    try {
+                        pMenuAction->viewFullAccountInfo();
+                        setCurrentMenu(MenuId::ADMIN_ACCOUNT);
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::UPDATE_PROFILE:
                     //TO DO
@@ -200,7 +224,7 @@ namespace menu {
         return exitRequested;
     }
 
-    void MenuController::navigateToMenu(MenuId menuId) {
+    void MenuController::navigateToMenu(const MenuId menuId) {
         setCurrentMenu(menuId);
         std::cout << "\n📍 Navigating to new menu...\n";
     }
