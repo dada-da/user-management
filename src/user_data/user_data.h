@@ -14,7 +14,7 @@
 #include "../user/user.h"
 
 namespace db_user {
-    class UserData : public IUserDatabase {
+    class UserData final : public IUserDatabase {
         List<data::User> users;
         static const std::string filePath;
 

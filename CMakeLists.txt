@@ -34,6 +34,7 @@ set(SOURCES
         src/utils/validator/validator.cpp
         src/utils/validator/validator.h
         src/utils/print/print_data.h
+        src/utils/stack/stack.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

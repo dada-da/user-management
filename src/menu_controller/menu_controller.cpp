@@ -12,23 +12,21 @@
 #include "../user_management/user_management.h"
 
 namespace menu {
-    void MenuController::displayMenu(const Menu &menu) const {
-        std::cout << "\n================================\n";
-        std::cout << "    Payment System\n";
-        std::cout << "===============================\n";
-
+    void MenuController::displayMenu(const Menu &menu) {
         displayUserStatus();
 
-        std::cout << "\n--------------------------------\n";
+        std::cout << "\n------------------------------------------------------------\n";
 
         for (const auto &item: menu.items) {
             std::cout << item.id << ". " << item.label << std::endl;
         }
-        std::cout << "--------------------------------\n";
+        std::cout << "------------------------------------------------------------\n";
     }
 
-    void MenuController::displayUserStatus() const {
-        std::cout << "Current Status: ";
+    void MenuController::displayUserStatus() {
+        std::cout << "\n------------------------------------------------------------\n";
+
+        std::cout << "Current User: ";
 
         try {
             const auto userManager = user_mgmt::UserManagement::getInstance();
@@ -43,7 +41,7 @@ namespace menu {
         }
     }
 
-    Menu MenuController::getMenuList(const MenuId menuId) const {
+    Menu MenuController::getMenuList(const MenuId menuId) {
         switch (menuId) {
             case MenuId::CUSTOMER_MENU:
                 return CUSTOMER_MENU;
@@ -53,6 +51,8 @@ namespace menu {
                 return ADMIN_MENU;
             case MenuId::ADMIN_ACCOUNT:
                 return ADMIN_ACCOUNT;
+            case MenuId::VIEW_INFO:
+                return VIEW_INFO;
             case MenuId::MAIN_MENU:
             default:
                 return MAIN_MENU;
@@ -60,18 +60,19 @@ namespace menu {
     }
 
     Menu MenuController::getCurrentMenu() const {
-        const auto userManager = user_mgmt::UserManagement::getInstance();
-        if (!userManager || !userManager->isLoggedIn()) {
+        const MenuId currentMenuId = menuLog.peek()->data;
+        if (const auto userManager = user_mgmt::UserManagement::getInstance();
+            !userManager || !userManager->isLoggedIn()) {
             return MAIN_MENU;
         }
         return getMenuList(currentMenuId);
     }
 
     void MenuController::setCurrentMenu(const MenuId menuId) {
-        currentMenuId = menuId;
+        menuLog.push(menuId);
     }
 
-    void MenuController::displayWelcomeMessage() const {
+    void MenuController::displayWelcomeMessage() {
         std::cout << "\n🎉 Welcome to Payment System!\n";
         std::cout << "📋 Default accounts:\n";
         std::cout << "  👑 Admin: username='root', password='root'\n";
@@ -80,6 +81,8 @@ namespace menu {
 
     void MenuController::init() {
         displayWelcomeMessage();
+
+        menuLog.push(MenuId::MAIN_MENU);
 
         while (!exitRequested) {
             try {
@@ -145,7 +148,12 @@ namespace menu {
                 case ActionType::LOGIN:
                     try {
                         pMenuAction->login();
-                        setCurrentMenu(MenuId::ADMIN_MENU);
+                        const auto userManager = user_mgmt::UserManagement::getInstance();
+                        if (userManager->isAdmin()) {
+                            setCurrentMenu(MenuId::ADMIN_MENU);
+                        } else {
+                            setCurrentMenu(MenuId::CUSTOMER_MENU);
+                        }
                     } catch (const std::exception &e) {
                         std::cerr << e.what() << std::endl;
                     }
@@ -176,7 +184,7 @@ namespace menu {
                 case ActionType::VIEW_PROFILE:
                     try {
                         pMenuAction->viewFullAccountInfo();
-                        setCurrentMenu(MenuId::ADMIN_ACCOUNT);
+                        setCurrentMenu(MenuId::VIEW_INFO);
                     } catch (const std::exception &e) {
                         std::cerr << e.what() << std::endl;
                     }
@@ -191,7 +199,11 @@ namespace menu {
                     //TO DO
                     break;
                 case ActionType::BACK:
-                    //TO DO
+                    try {
+                        menuLog.pop();
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::CREATE_USER:
                     //TO DO

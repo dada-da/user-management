@@ -14,7 +14,8 @@ namespace menu {
         CUSTOMER_MENU,
         ADMIN_MENU,
         ADMIN_ACCOUNT,
-        CUSTOMER_ACCOUNT
+        CUSTOMER_ACCOUNT,
+        VIEW_INFO
     };
 
     enum class ActionType {
@@ -79,7 +80,7 @@ namespace menu {
             {2, "✏️ Update Profile", ActionType::UPDATE_PROFILE},
             {3, "🔒 Change Password", ActionType::CHANGE_PASSWORD},
             {4, "📈 Points History", ActionType::POINTS_HISTORY},
-            {-1, "↩️ Back", ActionType::BACK}
+            {5, "↩️ Back", ActionType::BACK}
         }
     };
 
@@ -89,7 +90,7 @@ namespace menu {
             {1, "👤 View Full Account Details", ActionType::VIEW_PROFILE},
             {2, "✏️ Update Profile", ActionType::UPDATE_PROFILE},
             {3, "🔒 Change Password", ActionType::CHANGE_PASSWORD},
-            {-1, "↩️ Back", ActionType::BACK}
+            {4, "↩️ Back", ActionType::BACK}
         }
     };
 
@@ -105,6 +106,13 @@ namespace menu {
             {0, "🚪 Exit", ActionType::EXIT}
         },
         true
+    };
+
+    const Menu VIEW_INFO = {
+        MenuId::VIEW_INFO,
+        {
+            {1, "↩️ Back", ActionType::BACK}
+        }
     };
 
     const Menu MENU_LIST[5] = {ADMIN_ACCOUNT, CUSTOMER_ACCOUNT, ADMIN_MENU, CUSTOMER_MENU, MAIN_MENU};
