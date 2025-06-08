@@ -26,7 +26,7 @@ int main() {
 
     menu::MenuController controller(&menuActionService, &menuDisplay);
 
-    controller.init();
+    controller.run();
 
     return 0;
 }

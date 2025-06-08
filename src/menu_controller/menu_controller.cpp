@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <limits>
 
 #include "menu_controller.h"
 #include "menu_list.h"
@@ -13,22 +12,6 @@
 #include "../user_management/user_management.h"
 
 namespace menu {
-    Menu MenuController::getMenuList(const MenuId menuId) {
-        switch (menuId) {
-            case MenuId::CUSTOMER_MENU:
-                return CUSTOMER_MENU;
-            case MenuId::ACCOUNT_DETAIL:
-                return ACCOUNT_DETAIL;
-            case MenuId::ADMIN_MENU:
-                return ADMIN_MENU;
-            case MenuId::VIEW_INFO:
-                return VIEW_INFO;
-            case MenuId::MAIN_MENU:
-            default:
-                return MAIN_MENU;
-        }
-    }
-
     Menu MenuController::getCurrentMenu() const {
         const MenuId currentMenuId = menuLog.peek()->data;
         if (const auto userManager = user_mgmt::UserManagement::getInstance();
@@ -42,14 +25,18 @@ namespace menu {
         menuLog.push(menuId);
     }
 
-    void MenuController::init() {
+    void MenuController::run() {
         pMenuDisplay->displayWelcomeMessage();
 
         menuLog.push(MenuId::MAIN_MENU);
 
         while (!exitRequested) {
             try {
-                runMenuLoop();
+                const Menu currentMenu = getCurrentMenu();
+                pMenuDisplay->displayMenu(currentMenu);
+
+                const int choice = getUserInput();
+                processChoice(choice, currentMenu);
             } catch (const std::exception &e) {
                 std::cerr << "❌ Error: " << e.what() << std::endl;
                 std::cout << "Press Enter to continue...";
@@ -60,33 +47,8 @@ namespace menu {
         pMenuDisplay->displayExitMessage();
     }
 
-    void MenuController::runMenuLoop() {
-        const Menu currentMenu = getCurrentMenu();
-        pMenuDisplay->displayMenu(currentMenu);
-
-        const int choice = getUserInput();
-        processChoice(choice, currentMenu);
-    }
-
     void MenuController::exit() {
         exitRequested = true;
-    }
-
-    int MenuController::getUserInput() const {
-        int choice;
-
-        while (true) {
-            std::cout << "\n👉 Enter your choice: ";
-
-            if (std::cin >> choice) {
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                return choice;
-            }
-
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "❌ Invalid input! Please enter a valid number.\n";
-        }
     }
 
     void MenuController::processChoice(int choice, const Menu &menu) {
@@ -186,15 +148,6 @@ namespace menu {
         } catch (const std::exception &e) {
             std::cerr << "\n ❌ Error executing action: " << e.what() << std::endl;
         }
-    }
-
-    void MenuController::handleInvalidChoice(int choice) const {
-        std::cout << "\n❌ Invalid choice: " << choice
-                << ". Please select a valid option.\n";
-    }
-
-    bool MenuController::isExitRequested() const {
-        return exitRequested;
     }
 
     void MenuController::navigateToMenu(const MenuId menuId) {
