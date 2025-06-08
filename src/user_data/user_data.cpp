@@ -92,6 +92,8 @@ namespace db_user {
                 updatedUser.setEmail(user.getEmail());
                 updatedUser.setPhoneNumber(user.getPhoneNumber());
                 updatedUser.setDob(user.getDob());
+                updatedUser.setPassword(user.getPassword());
+                updatedUser.setSalt(user.getSalt());
 
                 users.setDataAt(i, updatedUser);
 
