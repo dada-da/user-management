@@ -78,6 +78,8 @@ namespace db_user {
         bool deleteUser(int userId) override;
 
         std::optional<data::User> findUserById(int id) override;
+
+        std::vector<data::User> searchUsers(const std::string& keyword);
     };
 }
 

@@ -19,6 +19,8 @@ namespace menu {
         virtual void viewFullAccountInfo() = 0;
 
         virtual void updateProfile() = 0;
+
+        virtual void searchUser() = 0;
     };
 }
 

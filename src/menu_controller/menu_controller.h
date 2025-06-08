@@ -6,6 +6,8 @@
 #define MENU_CONTROLLER_H
 
 #include <limits>
+#include <string>
+#include <sstream>
 
 #include "../service/menu_action/interface_menu_action.h"
 #include "../menu_display/interface_menu_display.h"
@@ -22,17 +24,14 @@ namespace menu {
 
         static int getUserInput() {
             int choice;
-
+            std::string line;
             while (true) {
                 std::cout << "\n👉 Enter your choice: ";
-
-                if (std::cin >> choice) {
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, line);
+                std::stringstream ss(line);
+                if (ss >> choice) {
                     return choice;
                 }
-
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "❌ Invalid input! Please enter a valid number.\n";
             }
         }
