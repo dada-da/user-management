@@ -126,4 +126,60 @@ namespace menu {
             std::cerr << "Error loading profile: " << e.what() << std::endl;
         }
     }
+
+    void MenuAction::updateProfile() {
+        auto userManager = user_mgmt::UserManagement::getInstance();
+        if (!userManager || !userManager->isLoggedIn()) {
+            std::cout << "Ban chua dang nhap!\n";
+            return;
+        }
+
+        data::User currentUser = userManager->getCurrentUser();
+
+        std::cout << "\n🔒 Nhap lai mat khau de xac thuc: ";
+        std::string password = input::Validator::getPassword();
+
+        if (!pwHandler->comparePassword(password, currentUser.getPassword(), currentUser.getSalt())) {
+            std::cout << "❌ Mat khau khong dung. Huy cap nhat.\n";
+            return;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        std::cout << "\n--- Cap nhat thong tin ca nhan ---\n";
+        std::cout << "Ten hien tai: " << currentUser.getName() << "\n";
+        std::cout << "Ten moi (Enter de giu nguyen): ";
+        std::string newName;
+        std::getline(std::cin, newName);
+        if (!newName.empty()) currentUser.setName(newName);
+
+        std::cout << "Email hien tai: " << currentUser.getEmail() << "\n";
+        std::cout << "Email moi (Enter de giu nguyen): ";
+        std::string newEmail;
+        std::getline(std::cin, newEmail);
+        if (!newEmail.empty()) currentUser.setEmail(newEmail);
+
+        std::cout << "SDT hien tai: " << currentUser.getPhoneNumber() << "\n";
+        std::cout << "SDT moi (Enter de giu nguyen): ";
+        std::string newPhone;
+        std::getline(std::cin, newPhone);
+        if (!newPhone.empty()) currentUser.setPhoneNumber(newPhone);
+
+        std::cout << "Ngay sinh hien tai: " << currentUser.getDob() << "\n";
+        std::cout << "Ngay sinh moi (Enter de giu nguyen): ";
+        std::string newDob;
+        std::getline(std::cin, newDob);
+        if (!newDob.empty()) currentUser.setDob(newDob);
+
+        if (userData->updateUser(currentUser)) {
+            // Lấy lại user mới nhất từ database và cập nhật vào UserManagement
+            auto updatedUserOpt = userData->findUserByUsername(currentUser.getUsername());
+            if (updatedUserOpt.has_value()) {
+                userManager->setCurrentUser(updatedUserOpt.value());
+            }
+            std::cout << "\n✅ Cap nhat thong tin thanh cong!\n";
+        } else {
+            std::cout << "\n❌ Cap nhat that bai!\n";
+        }
+    }
 }

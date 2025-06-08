@@ -17,6 +17,8 @@ namespace menu {
         virtual void viewAccountDetail() = 0;
 
         virtual void viewFullAccountInfo() = 0;
+
+        virtual void updateProfile() = 0;
     };
 }
 

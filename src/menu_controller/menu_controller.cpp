@@ -113,7 +113,12 @@ namespace menu {
                     }
                     break;
                 case ActionType::UPDATE_PROFILE:
-                    //TO DO
+                    try {
+                        pMenuAction->updateProfile();
+                        setCurrentMenu(MenuId::ACCOUNT_DETAIL);
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::CHANGE_PASSWORD:
                     //TO DO

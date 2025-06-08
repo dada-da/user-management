@@ -6,10 +6,17 @@
 #define MENU_ACTION_H
 
 #include "interface_menu_action.h"
+#include "../../user_data/user_data.h"
+#include "../password_handler/password_handler.h"
 
 namespace menu {
-    class MenuAction final : public IMenuAction {
+    class MenuAction : public IMenuAction {
+        db_user::UserData* userData;
+        pw_util::PasswordHandler* pwHandler;
     public:
+        MenuAction(db_user::UserData* userData, pw_util::PasswordHandler* pwHandler)
+            : userData(userData), pwHandler(pwHandler) {}
+
         void login() override;
 
         void logout() override;
@@ -17,6 +24,8 @@ namespace menu {
         void viewAccountDetail() override;
 
         void viewFullAccountInfo() override;
+
+        void updateProfile() override;
     };
 }
 

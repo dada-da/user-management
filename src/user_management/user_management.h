@@ -117,6 +117,11 @@ namespace user_mgmt {
                 throw std::runtime_error(e.what());
             }
         }
+
+        void setCurrentUser(const data::User& user) {
+            std::lock_guard lock(mutex);
+            currentUser = std::make_unique<data::User>(user);
+        }
     };
 }
 

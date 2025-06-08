@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <chrono>
+#include <iomanip>
 
 #include "../utils/list/list.h"
 #include "user_data.h"
@@ -80,7 +82,21 @@ namespace db_user {
     }
 
     bool UserData::updateUser(const data::User &user) {
-        //TO DO
+        for (int i = 0; i < users.getSize(); i++) {
+            const std::optional<data::User> currentUser = users.getDataAt(i);
+            if (currentUser && currentUser->getId() == user.getId()) {
+                data::User updatedUser = *currentUser;
+                updatedUser.setName(user.getName());
+                updatedUser.setEmail(user.getEmail());
+                updatedUser.setPhoneNumber(user.getPhoneNumber());
+                updatedUser.setDob(user.getDob());
+
+                users.setDataAt(i, updatedUser);
+
+                saveToFile();
+                return true;
+            }
+        }
         return false;
     }
 
@@ -95,4 +111,12 @@ namespace db_user {
     }
 
     const std::string UserData::filePath = "./database/users.csv";
+
+    std::string UserData::getCurrentTimestamp() {
+        auto now = std::chrono::system_clock::now();
+        auto now_c = std::chrono::system_clock::to_time_t(now);
+        std::stringstream ss;
+        ss << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S");
+        return ss.str();
+    }
 }
