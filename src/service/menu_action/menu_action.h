@@ -28,6 +28,8 @@ namespace menu {
         void updateProfile() override;
 
         void searchUser() override;
+
+        void changePassword() override;
     };
 }
 

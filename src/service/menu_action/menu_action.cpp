@@ -219,4 +219,51 @@ namespace menu {
         }
         std::cout << "-------------------------------------------------------------\n";
     }
+
+    void MenuAction::changePassword() {
+        auto userManager = user_mgmt::UserManagement::getInstance();
+        if (!userManager || !userManager->isLoggedIn()) {
+            std::cout << "Ban chua dang nhap!\n";
+            return;
+        }
+
+        data::User currentUser = userManager->getCurrentUser();
+
+        std::cout << "\nNhap mat khau cu: ";
+        std::string oldPassword = input::Validator::getPassword();
+
+        if (!pwHandler->comparePassword(oldPassword, currentUser.getPassword(), currentUser.getSalt())) {
+            std::cout << "❌ Mat khau cu khong dung. Huy doi mat khau.\n";
+            return;
+        }
+
+        std::string newPassword, confirmPassword;
+        while (true) {
+            std::cout << "Nhap mat khau moi: ";
+            newPassword = input::Validator::getPassword();
+            std::cout << "Nhap lai mat khau moi: ";
+            confirmPassword = input::Validator::getPassword();
+            if (newPassword != confirmPassword) {
+                std::cout << "❌ Mat khau nhap lai khong khop. Vui long thu lai.\n";
+            } else {
+                break;
+            }
+        }
+
+        std::string newSalt = pwHandler->generateSalt();
+        std::string newHash = pwHandler->getHashPassword(newPassword, newSalt);
+
+        currentUser.setPassword(newHash);
+        currentUser.setSalt(newSalt);
+
+        if (userData->updateUser(currentUser)) {
+            auto updatedUserOpt = userData->findUserByUsername(currentUser.getUsername());
+            if (updatedUserOpt.has_value()) {
+                userManager->setCurrentUser(updatedUserOpt.value());
+            }
+            std::cout << "\n✅ Doi mat khau thanh cong!\n";
+        } else {
+            std::cout << "\n❌ Doi mat khau that bai!\n";
+        }
+    }
 }

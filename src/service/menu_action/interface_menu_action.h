@@ -21,6 +21,8 @@ namespace menu {
         virtual void updateProfile() = 0;
 
         virtual void searchUser() = 0;
+
+        virtual void changePassword() = 0;
     };
 }
 

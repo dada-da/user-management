@@ -121,7 +121,11 @@ namespace menu {
                     }
                     break;
                 case ActionType::CHANGE_PASSWORD:
-                    //TO DO
+                    try {
+                        pMenuAction->changePassword();
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::POINTS_HISTORY:
                     //TO DO
