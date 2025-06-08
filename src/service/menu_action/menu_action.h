@@ -26,6 +26,8 @@ namespace menu {
         void viewFullAccountInfo() override;
 
         void updateProfile() override;
+
+        void searchUser() override;
     };
 }
 

@@ -182,4 +182,41 @@ namespace menu {
             std::cout << "\n❌ Cap nhat that bai!\n";
         }
     }
+
+    void MenuAction::searchUser() {
+        std::cout << "\nNhap tu khoa tim kiem (username hoac email): ";
+        std::string keyword;
+        std::getline(std::cin, keyword);
+
+        if (keyword.empty()) {
+            std::cout << "Tu khoa khong duoc de trong!\n";
+            return;
+        }
+
+        auto results = userData->searchUsers(keyword);
+
+        if (results.empty()) {
+            std::cout << "\nKhong tim thay nguoi dung nao phu hop voi tu khoa \"" << keyword << "\".\n";
+            return;
+        }
+
+        std::cout << "\nKet qua tim kiem (" << results.size() << "):\n";
+        std::cout << "-------------------------------------------------------------\n";
+        std::cout << std::left << std::setw(5) << "ID"
+                  << std::setw(20) << "Username"
+                  << std::setw(25) << "Email"
+                  << std::setw(15) << "Role"
+                  << std::setw(10) << "Trang thai"
+                  << std::endl;
+        std::cout << "-------------------------------------------------------------\n";
+        for (const auto& user : results) {
+            std::cout << std::left << std::setw(5) << user.getId()
+                      << std::setw(20) << user.getUsername()
+                      << std::setw(25) << user.getEmail()
+                      << std::setw(15) << user.getRole()
+                      << std::setw(10) << (user.isActive() ? "Dang hoat dong" : "Bi khoa")
+                      << std::endl;
+        }
+        std::cout << "-------------------------------------------------------------\n";
+    }
 }

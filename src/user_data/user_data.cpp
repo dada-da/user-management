@@ -8,6 +8,8 @@
 #include <sstream>
 #include <chrono>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 #include "../utils/list/list.h"
 #include "user_data.h"
@@ -118,5 +120,26 @@ namespace db_user {
         std::stringstream ss;
         ss << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S");
         return ss.str();
+    }
+
+    std::vector<data::User> UserData::searchUsers(const std::string& keyword) {
+        std::vector<data::User> results;
+        for (int i = 0; i < users.getSize(); ++i) {
+            auto userOpt = users.getDataAt(i);
+            if (userOpt.has_value()) {
+                const auto& user = userOpt.value();
+                // Tìm theo username hoặc email (không phân biệt hoa thường)
+                std::string uname = user.getUsername();
+                std::string email = user.getEmail();
+                std::string key = keyword;
+                std::transform(uname.begin(), uname.end(), uname.begin(), ::tolower);
+                std::transform(email.begin(), email.end(), email.begin(), ::tolower);
+                std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+                if (uname.find(key) != std::string::npos || email.find(key) != std::string::npos) {
+                    results.push_back(user);
+                }
+            }
+        }
+        return results;
     }
 }

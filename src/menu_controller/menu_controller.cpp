@@ -140,7 +140,11 @@ namespace menu {
                     //TO DO
                     break;
                 case ActionType::SEARCH_USER:
-                    //TO DO
+                    try {
+                        pMenuAction->searchUser();
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::RESET_PASSWORD:
                     //TO DO
