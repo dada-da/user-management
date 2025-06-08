@@ -119,6 +119,18 @@ namespace user_mgmt {
                 throw std::runtime_error(e.what());
             }
         }
+
+        void logout() {
+            std::lock_guard lock(mutex);
+            try {
+                if (this->currentUser == nullptr) {
+                    throw std::runtime_error("Not logged in");
+                }
+                clearUser();
+            } catch (const std::exception &e) {
+                throw std::runtime_error(e.what());
+            }
+        }
     };
 }
 

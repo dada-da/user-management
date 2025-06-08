@@ -12,6 +12,8 @@ namespace menu {
     public:
         void login() override;
 
+        void logout() override;
+
         void viewAccountDetail() override;
 
         void viewFullAccountInfo() override;

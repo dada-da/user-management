@@ -12,6 +12,8 @@ namespace menu {
 
         virtual void login() = 0;
 
+        virtual void logout() = 0;
+
         virtual void viewAccountDetail() = 0;
 
         virtual void viewFullAccountInfo() = 0;

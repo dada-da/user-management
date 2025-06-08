@@ -2,6 +2,7 @@
 
 #include "user_management/user_management.h"
 #include "menu_controller/menu_controller.h"
+#include "menu_display/menu_display.h"
 #include "user_data/user_data.h"
 #include "service/authentication/authentication_service.h"
 #include "service/password_handler/password_handler.h"
@@ -21,7 +22,9 @@ int main() {
 
     auto menuActionService = menu::MenuAction();
 
-    menu::MenuController controller(&menuActionService);
+    auto menuDisplay = menu::MenuDisplay();
+
+    menu::MenuController controller(&menuActionService, &menuDisplay);
 
     controller.init();
 

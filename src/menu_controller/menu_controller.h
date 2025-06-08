@@ -6,6 +6,7 @@
 #define MENU_CONTROLLER_H
 
 #include "../service/menu_action/interface_menu_action.h"
+#include "../menu_display/interface_menu_display.h"
 #include "../utils/stack/stack.h"
 #include "menu_list.h"
 
@@ -14,14 +15,8 @@ namespace menu {
         bool exitRequested;
         Stack<MenuId> menuLog;
         IMenuAction *pMenuAction;
+        IMenuDisplay *pMenuDisplay;
 
-        static void displayMenu(const Menu &menu);
-
-        static void displayUserStatus();
-
-        static void displayWelcomeMessage();
-
-        void displayExitMessage() const;
 
         static Menu getMenuList(MenuId menuId = MenuId::MAIN_MENU);
 
@@ -40,8 +35,8 @@ namespace menu {
         void runMenuLoop();
 
     public:
-        explicit MenuController(IMenuAction *pMenuAction) : exitRequested(false),
-                                                            pMenuAction(pMenuAction) {
+        explicit MenuController(IMenuAction *pMenuAction, IMenuDisplay *pMenuDisplay) : exitRequested(false),
+            pMenuAction(pMenuAction), pMenuDisplay(pMenuDisplay) {
         }
 
         ~MenuController() = default;

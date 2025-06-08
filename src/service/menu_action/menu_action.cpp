@@ -26,7 +26,14 @@ namespace menu {
         }
 
         std::cout << "Logged in successfully!" << std::endl;
-        std::cout << user_mgmt::UserManagement::getInstance()->getUserName() << std::endl;
+    }
+
+    void MenuAction::logout() {
+        try {
+            user_mgmt::UserManagement::getInstance()->logout();
+        } catch (const std::exception &e) {
+            throw std::runtime_error(e.what());
+        }
     }
 
     void MenuAction::viewAccountDetail() {

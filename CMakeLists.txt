@@ -35,6 +35,9 @@ set(SOURCES
         src/utils/validator/validator.h
         src/utils/print/print_data.h
         src/utils/stack/stack.h
+        src/menu_display/menu_display.cpp
+        src/menu_display/menu_display.h
+        src/menu_display/interface_menu_display.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
