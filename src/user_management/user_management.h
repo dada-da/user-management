@@ -10,6 +10,7 @@
 
 #include "../user/user.h"
 #include "../service/authentication/interface_authentication_service.h"
+#include "../utils/password_handler/password_handler.h"
 
 namespace user_mgmt {
     class UserManagement {
@@ -116,11 +117,6 @@ namespace user_mgmt {
             } catch (const std::exception &e) {
                 throw std::runtime_error(e.what());
             }
-        }
-
-        void setCurrentUser(const data::User& user) {
-            std::lock_guard lock(mutex);
-            currentUser = std::make_unique<data::User>(user);
         }
     };
 }

@@ -62,7 +62,7 @@ namespace db_user {
             return user;
         }
 
-        std::string getCurrentTimestamp();
+        static std::string getCurrentTimestamp();
 
     public:
         void loadFromFile() override;
@@ -71,15 +71,15 @@ namespace db_user {
 
         std::optional<data::User> findUserByUsername(const std::string &username) override;
 
-        void insertUser(const data::User &user) override;
+        void create(const data::User &user) override;
 
-        bool updateUser(const data::User &user) override;
+        bool update(const data::User &user) override;
 
-        bool deleteUser(int userId) override;
+        bool deleteUser(std::string username) override;
 
         std::optional<data::User> findUserById(int id) override;
 
-        std::vector<data::User> searchUsers(const std::string& keyword);
+        std::vector<data::User> search(const std::string& keyword) override;
     };
 }
 

@@ -8,23 +8,17 @@
 #include "../../user_data/user_data.h"
 #include "../../user/user.h"
 #include "./interface_authentication_service.h"
-#include "../password_handler/password_handler.h"
 
-namespace auth
-{
-  class AuthenticationService : public IAuthenticationService
-  {
-    db_user::IUserDatabase *userDatabase;
-    pw_util::IPasswordHandler *passwordHandler;
+namespace auth {
+    class AuthenticationService final : public IAuthenticationService {
+        db_user::IUserDatabase *userDatabase;
 
-  public:
-    AuthenticationService(db_user::IUserDatabase *db,
-                          pw_util::IPasswordHandler *pwHandler) : userDatabase(db),
-                                                                  passwordHandler(pwHandler) {
-                                                                  };
+    public:
+        AuthenticationService(db_user::IUserDatabase *db) : userDatabase(db) {
+        }
 
-    data::User authenticateUser(const std::string &username, const std::string &password) override;
-  };
+        data::User authenticateUser(const std::string &username, const std::string &password) override;
+    };
 }
 
 #endif // AUTHENTICATION_SERVICE_H

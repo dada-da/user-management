@@ -2,7 +2,7 @@
 // Created by Da on 3/6/25.
 //
 
-#include "../password_handler/password_handler.h"
+#include "../../utils/password_handler/password_handler.h"
 #include "../authentication/authentication_service.h"
 
 namespace auth {
@@ -16,7 +16,7 @@ namespace auth {
             throw std::runtime_error("User is not active");
         }
 
-        if (!passwordHandler->comparePassword(password, user->getPassword(), user->getSalt())) {
+        if (!pw_util::PasswordHandler::comparePassword(password, user->getPassword(), user->getSalt())) {
             throw std::runtime_error("Password is wrong");
         }
 

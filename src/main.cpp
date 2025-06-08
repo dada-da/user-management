@@ -5,28 +5,26 @@
 #include "menu_display/menu_display.h"
 #include "user_data/user_data.h"
 #include "service/authentication/authentication_service.h"
-#include "service/password_handler/password_handler.h"
 #include "service/menu_action/menu_action.h"
 
 using namespace std;
 
 int main() {
     auto userData = db_user::UserData();
-    auto pwHandle = pw_util::PasswordHandler();
 
-    // pwHandle.regenerateDefaultPasswords();
+    // pw_util::PasswordHandler::regenerateDefaultPasswords();
     // For regenerate root and customer
 
-    // pwHandle.generateSomePassword("somepassword");
+    // pw_util::PasswordHandler::generateSomePassword("somepassword");
     // To get hash and salt if you want to create user directly in user.csv
 
     userData.loadFromFile();
 
-    auto authService = auth::AuthenticationService(&userData, &pwHandle);
+    auto authService = auth::AuthenticationService(&userData);
 
     user_mgmt::UserManagement::getInstance(&authService);
 
-    auto menuActionService = menu::MenuAction(&userData, &pwHandle);
+    auto menuActionService = menu::MenuAction(&userData, &authService);
 
     auto menuDisplay = menu::MenuDisplay();
 

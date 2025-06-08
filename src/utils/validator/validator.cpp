@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <optional>
 #include "validator.h"
 
 namespace input {
@@ -57,6 +58,7 @@ namespace input {
         bool isValid = false;
 
         while (!isValid) {
+            std::cout << "Enter username: ";
             std::getline(std::cin, username);
 
             if (username.empty()) {
@@ -72,10 +74,11 @@ namespace input {
         return username;
     }
 
-    std::string Validator::getPassword() {
+    std::string Validator::getPassword(const std::string& label) {
         std::string password;
 
         while (true) {
+            std::cout << label;
             std::getline(std::cin, password);
 
             if (password.empty()) {

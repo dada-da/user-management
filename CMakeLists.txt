@@ -23,8 +23,7 @@ set(SOURCES
         src/utils/list/list.h
         src/service/authentication/authentication_service.cpp
         src/service/authentication/authentication_service.h
-        src/service/password_handler/password_handler.cpp
-        src/service/password_handler/password_handler.h
+        src/utils/password_handler/password_handler.h
         src/user_data/interface_user_data.h
         src/service/authentication/interface_authentication_service.h
         src/menu_controller/menu_list.h

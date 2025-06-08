@@ -23,7 +23,7 @@ namespace input {
     public:
         static std::string getValidUserName();
 
-        static std::string getPassword();
+        static std::string getPassword(const std::string& label = "Enter password: ");
     };
 }
 

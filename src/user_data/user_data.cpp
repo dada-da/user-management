@@ -79,11 +79,11 @@ namespace db_user {
         return users.findByProperty(&data::User::getUsername, username);
     }
 
-    void UserData::insertUser(const data::User &user) {
+    void UserData::create(const data::User &user) {
         //TO DO
     }
 
-    bool UserData::updateUser(const data::User &user) {
+    bool UserData::update(const data::User &user) {
         for (int i = 0; i < users.getSize(); i++) {
             const std::optional<data::User> currentUser = users.getDataAt(i);
             if (currentUser && currentUser->getId() == user.getId()) {
@@ -104,7 +104,7 @@ namespace db_user {
         return false;
     }
 
-    bool UserData::deleteUser(int userId) {
+    bool UserData::deleteUser(std::string username) {
         //TO DO
         return false;
     }
@@ -117,14 +117,14 @@ namespace db_user {
     const std::string UserData::filePath = "./database/users.csv";
 
     std::string UserData::getCurrentTimestamp() {
-        auto now = std::chrono::system_clock::now();
-        auto now_c = std::chrono::system_clock::to_time_t(now);
+        const auto now = std::chrono::system_clock::now();
+        const auto now_c = std::chrono::system_clock::to_time_t(now);
         std::stringstream ss;
         ss << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S");
         return ss.str();
     }
 
-    std::vector<data::User> UserData::searchUsers(const std::string& keyword) {
+    std::vector<data::User> UserData::search(const std::string& keyword) {
         std::vector<data::User> results;
         for (int i = 0; i < users.getSize(); ++i) {
             auto userOpt = users.getDataAt(i);
