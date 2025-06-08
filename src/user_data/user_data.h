@@ -30,7 +30,7 @@ namespace db_user {
                 std::cerr << "Error converting '" << str << "' to integer: " << e.what() << std::endl;
                 return DEFAULT_VALUE;
             }
-        };
+        }
 
         static data::User parseLine(const std::string &line) {
             data::User user = {};
@@ -43,7 +43,7 @@ namespace db_user {
             }
 
             if (fields.size() >= 13) {
-                user.setPoints(convertStringToInt(fields[0]));
+                user.setId(convertStringToInt(fields[0]));
                 user.setName((fields[1] == "null") ? "" : fields[1]);
                 user.setUsername((fields[2] == "null") ? "" : fields[2]);
                 user.setPoints(convertStringToInt(fields[3]));

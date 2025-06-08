@@ -1,0 +1,78 @@
+//
+// Created by Da on 8/6/25.
+//
+
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+#include "wallet_data.h"
+
+namespace data {
+    void WalletData::loadFromFile() {
+        std::ifstream file(WALLET_DATA_FILE_PATH);
+
+        if (!file.is_open()) {
+            throw std::runtime_error("Could not open file " + WALLET_DATA_FILE_PATH);
+        }
+
+        std::string line;
+        bool isFirstLine = true;
+
+        while (std::getline(file, line)) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+            }
+
+            Wallet wallet = parseLine(line);
+
+            data.insert(wallet);
+        }
+
+        file.close();
+        std::cout << "Successfully read " << data.getSize() << " wallets from CSV" << std::endl;
+    }
+
+    void WalletData::saveToFile() {
+        std::ofstream file(WALLET_DATA_FILE_PATH);
+
+        if (!file.is_open()) {
+            throw std::runtime_error("Error opening file for writing");
+        }
+
+        file << "id,username,balance\n";
+
+        for (int i = 0; i < data.getSize(); i++) {
+            const std::optional<Wallet> wallet = data.getDataAt(i);
+
+            if (wallet == std::nullopt || !wallet.has_value()) continue;
+
+            file << wallet->getId() << ","
+                    << wallet->getUsername() << ","
+                    << wallet->getBalance() << "\n";
+
+            if (i < data.getSize() - 1) {
+                file << "\n";
+            }
+        }
+    }
+
+    std::optional<Wallet> WalletData::find(const std::string &username) {
+        return data.findByProperty(&Wallet::getUsername, username);
+    }
+
+    bool WalletData::update(const std::string &username, const double balance) {
+        std::optional<Wallet> wallet = find(username);
+
+        if (wallet == std::nullopt || !wallet.has_value()) {
+            return false;
+        }
+
+        wallet->setBalance(balance);
+        return true;
+    }
+
+    const std::string WalletData::WALLET_DATA_FILE_PATH = "../database/wallet.csv";
+}

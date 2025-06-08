@@ -38,6 +38,9 @@ set(SOURCES
         src/menu_display/menu_display.cpp
         src/menu_display/menu_display.h
         src/menu_display/interface_menu_display.h
+        src/repository/wallet_data/wallet_data.cpp
+        src/repository/wallet_data/wallet_data.h
+        src/repository/wallet_data/interface_wallet_data.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
