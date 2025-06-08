@@ -36,8 +36,17 @@ public:
         std::cout << std::left << std::setw(LABEL_WIDTH) << label + ":" << " " << value << std::endl;
     }
 
-    static void printField(const std::string &label, int value) {
+    static void printField(const std::string &label, const int value) {
         std::cout << std::left << std::setw(LABEL_WIDTH) << label + ":" << " " << value << std::endl;
+    }
+
+    static void printField(const std::string &label, const long long value) {
+        std::cout << std::left << std::setw(LABEL_WIDTH) << label + ":" << " " << value << std::endl;
+    }
+
+    static void printSectionHeader(const std::string &title) {
+        std::cout << "\n " << title << " ";
+        std::cout << std::string(65 - title.length(), '-') << "┐\n";
     }
 };
 

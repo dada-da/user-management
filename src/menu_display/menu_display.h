@@ -10,7 +10,7 @@
 #include "interface_menu_display.h"
 
 namespace menu {
-    class MenuDisplay : public IMenuDisplay {
+    class MenuDisplay final : public IMenuDisplay {
     public:
         static void clearScreen() {
             std::cout << "\033[2J\033[1;1H";

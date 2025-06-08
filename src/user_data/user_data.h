@@ -46,17 +46,16 @@ namespace db_user {
                 user.setId(convertStringToInt(fields[0]));
                 user.setName((fields[1] == "null") ? "" : fields[1]);
                 user.setUsername((fields[2] == "null") ? "" : fields[2]);
-                user.setPoints(convertStringToInt(fields[3]));
-                user.setPhoneNumber(fields[4]);
-                user.setOtpId(fields[5]);
-                user.setRole((fields[6] == "null") ? "" : fields[6]);
-                user.setPassword(fields[7]);
-                user.setSalt(fields[8]);
-                user.setActive(fields[9] == "true");
-                user.setEmail(fields[10]);
-                user.setDob(fields[11]);
-                user.setCreatedAt(fields[12]);
-                user.setUpdatedAt(fields[13]);
+                user.setPhoneNumber(fields[3]);
+                user.setOtpId(fields[4]);
+                user.setRole((fields[5] == "null") ? "" : fields[5]);
+                user.setPassword(fields[6]);
+                user.setSalt(fields[7]);
+                user.setActive(fields[8] == "true");
+                user.setEmail(fields[9]);
+                user.setDob(fields[10]);
+                user.setCreatedAt(fields[11]);
+                user.setUpdatedAt(fields[12]);
             }
 
             return user;

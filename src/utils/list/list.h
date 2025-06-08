@@ -136,6 +136,15 @@ public:
         return data[index];
     }
 
+    template<typename PropertyType>
+    T *findByPropertyPtr(PropertyType (T::*getter)() const, const PropertyType &value) {
+        const int index = findIndexByProperty(getter, value);
+        if (index == -1) {
+            return nullptr;
+        }
+        return &data[index];
+    }
+
 
     int getSize() const {
         return size;
@@ -149,7 +158,7 @@ public:
         return this->size == 0;
     }
 
-    void setDataAt(int index, const T& value) {
+    void setDataAt(int index, const T &value) {
         if (index >= 0 && index < size) {
             data[index] = value;
         }

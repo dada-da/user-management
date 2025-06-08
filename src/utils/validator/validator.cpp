@@ -5,8 +5,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <optional>
 #include "validator.h"
+#include "../formatter.h"
 
 namespace input {
     std::string Validator::trimSpace(const std::string &str) {
@@ -53,12 +53,12 @@ namespace input {
     }
 
 
-    std::string Validator::getValidUserName() {
+    std::string Validator::getValidUserName(const std::string &label) {
         std::string username;
         bool isValid = false;
 
         while (!isValid) {
-            std::cout << "Enter username: ";
+            std::cout << label;
             std::getline(std::cin, username);
 
             if (username.empty()) {
@@ -74,7 +74,7 @@ namespace input {
         return username;
     }
 
-    std::string Validator::getPassword(const std::string& label) {
+    std::string Validator::getPassword(const std::string &label) {
         std::string password;
 
         while (true) {
@@ -100,5 +100,29 @@ namespace input {
         }
 
         return password;
+    }
+
+    long long Validator::getAmountInput(const long long maxAmount) {
+        long long amount;
+        while (true) {
+            std::cout << "\n💰 " << "Enter amount";
+
+            if (maxAmount > 0) {
+                std::cout << " (Max: " << Formatter::formatCurrency(maxAmount) << ")";
+            }
+            std::cout << ": ";
+
+            if (std::cin >> amount) {
+                if (amount > 0 && (maxAmount < 0 || amount <= maxAmount)) {
+                    std::cin.ignore();
+                    return amount;
+                }
+                std::cout << "❌ Invalid amount. Please try again." << std::endl;
+            } else {
+                std::cout << "❌ Please enter a valid number." << std::endl;
+                std::cin.clear();
+                std::cin.ignore();
+            }
+        }
     }
 }

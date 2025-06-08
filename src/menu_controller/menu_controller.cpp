@@ -94,7 +94,12 @@ namespace menu {
                     }
                     break;
                 case ActionType::TRANSFER_POINTS:
-                    //TO DO
+                    try {
+                        pMenuAction->transfer();
+                        setCurrentMenu(MenuId::BACK_BUTTON);
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::LOGOUT:
                     try {
@@ -107,7 +112,7 @@ namespace menu {
                 case ActionType::VIEW_PROFILE:
                     try {
                         pMenuAction->viewFullAccountInfo();
-                        setCurrentMenu(MenuId::VIEW_INFO);
+                        setCurrentMenu(MenuId::BACK_BUTTON);
                     } catch (const std::exception &e) {
                         std::cerr << e.what() << std::endl;
                     }

@@ -47,15 +47,11 @@ namespace data {
         for (int i = 0; i < data.getSize(); i++) {
             const std::optional<Wallet> wallet = data.getDataAt(i);
 
-            if (wallet == std::nullopt || !wallet.has_value()) continue;
+            if (!wallet.has_value()) continue;
 
             file << wallet->getId() << ","
                     << wallet->getUsername() << ","
                     << wallet->getBalance() << "\n";
-
-            if (i < data.getSize() - 1) {
-                file << "\n";
-            }
         }
     }
 
@@ -63,10 +59,10 @@ namespace data {
         return data.findByProperty(&Wallet::getUsername, username);
     }
 
-    bool WalletData::update(const std::string &username, const double balance) {
-        std::optional<Wallet> wallet = find(username);
+    bool WalletData::update(const std::string &username, const long long balance) {
+        Wallet *wallet = data.findByPropertyPtr(&Wallet::getUsername, username);
 
-        if (wallet == std::nullopt || !wallet.has_value()) {
+        if (wallet == nullptr) {
             return false;
         }
 

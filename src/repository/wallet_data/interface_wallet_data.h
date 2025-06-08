@@ -13,12 +13,12 @@ namespace data {
     class Wallet {
         int id;
         std::string username;
-        double balance;
+        long long balance;
 
     public:
         Wallet() = default;
 
-        Wallet(const int id, std::string username, const double balance) : id(id), username(std::move(username)),
+        Wallet(const int id, std::string username, const long long balance) : id(id), username(std::move(username)),
                                                                            balance(balance) {
         }
 
@@ -30,7 +30,7 @@ namespace data {
             return username;
         }
 
-        double getBalance() const {
+        long long getBalance() const {
             return balance;
         }
 
@@ -38,7 +38,7 @@ namespace data {
             this->username = username;
         }
 
-        void setBalance(const double balance) {
+        void setBalance(const long long balance) {
             this->balance = balance;
         }
 
@@ -57,7 +57,7 @@ namespace data {
 
         virtual std::optional<Wallet> find(const std::string &username) = 0;
 
-        virtual bool update(const std::string &username, double balance) = 0;
+        virtual bool update(const std::string &username, long long balance) = 0;
     };
 }
 

@@ -21,9 +21,11 @@ namespace input {
         static bool isValidUserName(const std::string &username);
 
     public:
-        static std::string getValidUserName();
+        static std::string getValidUserName(const std::string &label= "Enter username: ");
 
         static std::string getPassword(const std::string& label = "Enter password: ");
+
+        static long long getAmountInput(long long maxAmount);
     };
 }
 

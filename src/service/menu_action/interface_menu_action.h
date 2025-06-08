@@ -23,6 +23,10 @@ namespace menu {
         virtual void searchUser() = 0;
 
         virtual void changePassword() = 0;
+
+        virtual void transfer() = 0;
+
+        virtual void displayWalletDashboard() = 0;
     };
 }
 

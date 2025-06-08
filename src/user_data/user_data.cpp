@@ -57,7 +57,6 @@ namespace db_user {
             file << userData->getId() << ","
                     << userData->getName() << ","
                     << userData->getUsername() << ","
-                    << userData->getPoints() << ","
                     << userData->getPhoneNumber() << ","
                     << userData->getOtpId() << ","
                     << userData->getRole() << ","
@@ -124,12 +123,12 @@ namespace db_user {
         return ss.str();
     }
 
-    std::vector<data::User> UserData::search(const std::string& keyword) {
+    std::vector<data::User> UserData::search(const std::string &keyword) {
         std::vector<data::User> results;
         for (int i = 0; i < users.getSize(); ++i) {
             auto userOpt = users.getDataAt(i);
             if (userOpt.has_value()) {
-                const auto& user = userOpt.value();
+                const auto &user = userOpt.value();
                 // Tìm theo username hoặc email (không phân biệt hoa thường)
                 std::string uname = user.getUsername();
                 std::string email = user.getEmail();

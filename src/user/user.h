@@ -17,7 +17,6 @@ namespace data {
         std::string phoneNumber;
         std::string email;
         std::string dob;
-        int points;
         bool active;
         std::string updatedAt;
         std::string createdAt;
@@ -39,13 +38,12 @@ namespace data {
             const std::string &phoneNumber,
             const std::string &email,
             const std::string &dob,
-            const int points,
             const bool active,
             const std::string &updatedAt,
             const std::string &createdAt
         )
             : id(id), username(username), passwordHash(password), salt(salt), role(role), otpId(otpId),
-              name(name), phoneNumber(phoneNumber), email(email), dob(dob), points(points), active(active),
+              name(name), phoneNumber(phoneNumber), email(email), dob(dob), active(active),
               createdAt(createdAt), updatedAt(updatedAt) {
         }
 
@@ -93,10 +91,6 @@ namespace data {
             this->dob = dob;
         }
 
-        void setPoints(const int points) {
-            this->points = points;
-        }
-
         void setUpdatedAt(const std::string &updatedAt) {
             this->updatedAt = updatedAt;
         }
@@ -116,7 +110,6 @@ namespace data {
             phoneNumber = user.phoneNumber;
             email = user.email;
             dob = user.dob;
-            points = user.points;
             active = user.active;
             updatedAt = user.updatedAt;
             createdAt = user.createdAt;
@@ -162,9 +155,6 @@ namespace data {
             return dob;
         }
 
-        int getPoints() const {
-            return points;
-        }
 
         std::string getUpdatedAt() const {
             return updatedAt;

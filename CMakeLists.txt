@@ -40,6 +40,10 @@ set(SOURCES
         src/repository/wallet_data/wallet_data.cpp
         src/repository/wallet_data/wallet_data.h
         src/repository/wallet_data/interface_wallet_data.h
+        src/service/wallet/wallet_service.cpp
+        src/service/wallet/wallet_service.h
+        src/service/wallet/interface_wallet_service.h
+        src/utils/formatter.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

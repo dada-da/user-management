@@ -44,8 +44,8 @@ namespace menu {
                     return ACCOUNT_DETAIL;
                 case MenuId::ADMIN_MENU:
                     return ADMIN_MENU;
-                case MenuId::VIEW_INFO:
-                    return VIEW_INFO;
+                case MenuId::BACK_BUTTON:
+                    return BACK_BUTTON;
                 case MenuId::MAIN_MENU:
                 default:
                     return MAIN_MENU;

@@ -50,8 +50,8 @@ namespace data {
 
             if (fields.size() >= 3) {
                 wallet.setId(convertStringToNumber<int>(fields[0]));
-                wallet.setUsername((fields[1] == "null") ? "" : fields[2]);
-                wallet.setBalance(convertStringToNumber<double>(fields[3]));
+                wallet.setUsername((fields[1] == "null") ? "" : fields[1]);
+                wallet.setBalance(std::stoll(fields[2]));
             }
 
             return wallet;
@@ -64,7 +64,7 @@ namespace data {
 
         std::optional<Wallet> find(const std::string &username) override;
 
-        bool update(const std::string &username, double balance) override;
+        bool update(const std::string &username, long long balance) override;
     };
 }
 

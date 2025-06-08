@@ -52,7 +52,7 @@ namespace menu {
             std::cout << "🏷️ Username: " << std::left << user.getUsername() << std::endl;
             std::cout << "🎯 Role: " << std::left << (user.isAdmin() ? "👑 Administrator" : "👤 Customer") << std::endl;
             if (!user.isAdmin()) {
-                std::cout << "💰 Points: " << std::left << (std::to_string(user.getPoints()) + " points") << std::endl;
+                std::cout << "💰 Points: " << std::left << walletService->getFormattedBalance() << std::endl;
             }
         } catch (const std::exception &e) {
             std::cerr << "Error loading profile: " << e.what() << std::endl;
@@ -99,7 +99,7 @@ namespace menu {
             PrintData::printField("Status", user.isActive() ? "✅ Active" : "❌ Inactive");
 
             if (!user.isAdmin()) {
-                PrintData::printField("Points Balance", user.getPoints());
+                PrintData::printField("Points Balance", walletService->getFormattedBalance());
             }
 
             if (!user.getCreatedAt().empty()) {
@@ -258,5 +258,33 @@ namespace menu {
         } catch (const std::exception &e) {
             throw std::runtime_error(e.what());
         }
+    }
+
+    void MenuAction::transfer() {
+        const auto userManager = user_mgmt::UserManagement::getInstance();
+
+        const long long currentBalance = walletService->getBalance();
+        std::string validUsername;
+        bool isValid = false;
+
+        while (!isValid) {
+            validUsername = input::Validator::getValidUserName("👤 Enter received username: ");
+            if (validUsername == userManager->getUserName()) {
+                std::cout << "⚠️ Cannot transfer for yourself" << std::endl;
+                return;
+            }
+            isValid = true;
+        }
+
+        const long long validAmount = input::Validator::getAmountInput(currentBalance);
+
+        if (!walletService->transfer(validUsername, validAmount)) {
+            std::cout << "⚠️ Somthing went wrong. Try again later" << std::endl;
+        }
+        std::cout << "✅ Your transfer has been confirmed." << std::endl;
+    }
+
+    void MenuAction::displayWalletDashboard() {
+        walletService->displayWalletDashboard();
     }
 }

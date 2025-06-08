@@ -14,7 +14,7 @@ namespace menu {
         CUSTOMER_MENU,
         ADMIN_MENU,
         ACCOUNT_DETAIL,
-        VIEW_INFO
+        BACK_BUTTON
     };
 
     enum class ActionType {
@@ -97,8 +97,8 @@ namespace menu {
         true
     };
 
-    const Menu VIEW_INFO = {
-        MenuId::VIEW_INFO,
+    const Menu BACK_BUTTON = {
+        MenuId::BACK_BUTTON,
         {
             {1, "↩️ Back", ActionType::BACK}
         }
