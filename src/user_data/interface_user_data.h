@@ -6,6 +6,7 @@
 #define INTERFACE_USER_DATA_H
 
 #include "../user/user.h"
+#include <optional>
 
 namespace db_user {
     class IUserDatabase {

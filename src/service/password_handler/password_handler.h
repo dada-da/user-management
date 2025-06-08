@@ -21,12 +21,14 @@ namespace pw_util {
                                      const std::string &salt) = 0;
     };
 
-    class PasswordHandler : public IPasswordHandler {
+    class PasswordHandler final : public IPasswordHandler {
         static constexpr int maxInteration = 1500;
         static constexpr int saltLength = 16;
-        static constexpr std::string secretKey = "SecretKey:))";
+        static constexpr char secretKey[13] = "SecretKey:))";
 
         static std::string createStrongerHash(const std::string &input);
+
+        static uint64_t customHash(const std::string &str);
 
     public:
         std::string generateSalt() override;
@@ -36,6 +38,10 @@ namespace pw_util {
         bool comparePassword(const std::string &plainPassword,
                              const std::string &hashedPassword,
                              const std::string &salt) override;
+
+        void regenerateDefaultPasswords();
+
+        void generateSomePassword(const std::string &password);
     };
 }
 

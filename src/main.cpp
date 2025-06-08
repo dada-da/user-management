@@ -14,6 +14,12 @@ int main() {
     auto userData = db_user::UserData();
     auto pwHandle = pw_util::PasswordHandler();
 
+    // pwHandle.regenerateDefaultPasswords();
+    // For regenerate root and customer
+
+    // pwHandle.generateSomePassword("somepassword");
+    // To get hash and salt if you want to create user directly in user.csv
+
     userData.loadFromFile();
 
     auto authService = auth::AuthenticationService(&userData, &pwHandle);

@@ -5,14 +5,14 @@
 #ifndef USER_DATA_H
 #define USER_DATA_H
 
+#include "./interface_user_data.h"
+#include "../utils/list/list.h"
+#include "../user/user.h"
+
 #include <optional>
 #include <iostream>
 #include <vector>
 #include <sstream>
-
-#include "./interface_user_data.h"
-#include "../utils/list/list.h"
-#include "../user/user.h"
 
 namespace db_user {
     class UserData final : public IUserDatabase {

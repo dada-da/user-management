@@ -4,6 +4,8 @@
 
 #ifndef LIST_H
 #define LIST_H
+
+#include <optional>
 #include <stdexcept>
 
 template<typename T>

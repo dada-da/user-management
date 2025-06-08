@@ -1,8 +1,8 @@
 #ifndef USER_H
 #define USER_H
 
-#include <string>
 #include "../role/role.h"
+#include <string>
 
 namespace data {
     class User {

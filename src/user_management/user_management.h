@@ -48,20 +48,6 @@ namespace user_mgmt {
 
         UserManagement &operator=(UserManagement &&other) = delete;
 
-        // void setUserInfo(const std::string &username,
-        //                  const std::string &name,
-        //                  const std::string &email,
-        //                  const std::string &password,
-        //                  const std::string &role,
-        //                  bool active,
-        //                  int points = 0) {
-        //     if (role == UserRoles::ADMIN) {
-        //         currentUser = std::make_unique<Admin>(username, name, email, password, active);
-        //     } else {
-        //         currentUser = std::make_unique<Customer>(username, name, email, password, points, active);
-        //     }
-        // }
-
         void clearUser() {
             currentUser.reset();
         }

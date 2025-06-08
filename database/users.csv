@@ -1,4 +1,4 @@
 id,name,username,points,phone_number,otp_id,role,password_hash,salt,active,email,dob,created_at,updated_at
-1,root,root,null,null,null,admin,1ca1ef501a1df23d1320c0fa056400e15e8724bd5f57204c,iPYa^PEqgAg6ck#L,true,null,null,null,null
-2,customer,customer,null,null,null,customer,cfa4b4ac941ac108686cc0d592ce675b8c6d05ca0d593dd0,S8^I#qLtSUj4QGWm,true,null,null,null,null
-3,customer2,customer2,null,null,null,customer,c0af70c80127a8082958fd3c46e7dddc92176b0746c69f52,jXopmGa*e&2J%JtI,true,null,null,null,null
+1,root,root,null,null,null,admin,5fbc88b1cac2774a89826ad9b5ebb781b3c778268d5544c3,KNvAd2te@zSjLJz7,true,null,null,null,null
+2,customer,customer,null,null,null,customer,44b483f5f82bbb928f3cc2bf71b2778918d0b63f9a5f6f4d,G1euhf597v8s3dHh,true,null,null,null,null
+3,customer2,customer2,null,null,null,customer,bed4d5b8fcae87bc4a19186af2d30f9b75ba5de23569963a,SouwrY9@@C$xfi#!,true,null,null,null,null
