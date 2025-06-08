@@ -7,6 +7,9 @@
 
 #include "../../utils/list/list.h"
 #include "interface_wallet_data.h"
+#include <vector>
+#include <sstream>
+#include <iostream>
 
 namespace data {
     class WalletData final : public IWalletData {

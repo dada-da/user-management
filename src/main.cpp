@@ -26,7 +26,7 @@ int main() {
 
     user_mgmt::UserManagement::getInstance(&authService);
 
-    auto menuActionService = menu::MenuAction();
+    auto menuActionService = menu::MenuAction(&userData, &pwHandle);
 
     auto menuDisplay = menu::MenuDisplay();
 

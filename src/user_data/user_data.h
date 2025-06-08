@@ -62,6 +62,8 @@ namespace db_user {
             return user;
         }
 
+        std::string getCurrentTimestamp();
+
     public:
         void loadFromFile() override;
 

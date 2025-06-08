@@ -148,6 +148,12 @@ public:
     bool isEmpty() const {
         return this->size == 0;
     }
+
+    void setDataAt(int index, const T& value) {
+        if (index >= 0 && index < size) {
+            data[index] = value;
+        }
+    }
 };
 
 #endif
