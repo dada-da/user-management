@@ -5,7 +5,7 @@
 #ifndef WALLET_DATA_H
 #define WALLET_DATA_H
 
-#include "../../utils/list/list.h"
+#include "../../utils/list.h"
 #include "interface_wallet_data.h"
 #include <vector>
 #include <sstream>

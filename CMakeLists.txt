@@ -14,16 +14,16 @@ set(SOURCES
         src/main.cpp
         src/user_management/user_management.cpp
         src/user_management/user_management.h
-        src/role/role.cpp
-        src/role/role.h
+        src/utils/role/role.cpp
+        src/utils/role/role.h
         src/menu_controller/menu_controller.cpp
         src/menu_controller/menu_controller.h
         src/user_data/user_data.h
         src/user_data/user_data.cpp
-        src/utils/list/list.h
+        src/utils/list.h
         src/service/authentication/authentication_service.cpp
         src/service/authentication/authentication_service.h
-        src/utils/password_handler/password_handler.h
+        src/utils/password_handler.h
         src/user_data/interface_user_data.h
         src/service/authentication/interface_authentication_service.h
         src/menu_controller/menu_list.h
@@ -33,7 +33,7 @@ set(SOURCES
         src/utils/validator/validator.cpp
         src/utils/validator/validator.h
         src/utils/print/print_data.h
-        src/utils/stack/stack.h
+        src/utils/stack.h
         src/menu_display/menu_display.cpp
         src/menu_display/menu_display.h
         src/menu_display/interface_menu_display.h

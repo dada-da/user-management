@@ -3,7 +3,6 @@
 //
 
 #include <string>
-#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -32,7 +31,6 @@ namespace data {
         }
 
         file.close();
-        std::cout << "Successfully read " << data.getSize() << " wallets from CSV" << std::endl;
     }
 
     void WalletData::saveToFile() {

@@ -10,7 +10,7 @@
 
 #include "../user/user.h"
 #include "../service/authentication/interface_authentication_service.h"
-#include "../utils/password_handler/password_handler.h"
+#include "../utils/password_handler.h"
 
 namespace user_mgmt {
     class UserManagement {

@@ -11,7 +11,7 @@
 
 #include "../service/menu_action/interface_menu_action.h"
 #include "../menu_display/interface_menu_display.h"
-#include "../utils/stack/stack.h"
+#include "../utils/stack.h"
 #include "menu_list.h"
 
 namespace menu {

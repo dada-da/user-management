@@ -11,7 +11,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "../utils/list/list.h"
+#include "../utils/list.h"
 #include "user_data.h"
 
 namespace db_user {
@@ -36,7 +36,6 @@ namespace db_user {
         }
 
         file.close();
-        std::cout << "Successfully read " << users.getSize() << " users from CSV" << std::endl;
     }
 
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include "menu_action.h"
-#include "../../utils/password_handler/password_handler.h"
+#include "../../utils/password_handler.h"
 #include "../../utils/validator/validator.h"
 #include "../../user_management/user_management.h"
 #include "../../utils/print/print_data.h"
@@ -281,7 +281,13 @@ namespace menu {
         if (!walletService->transfer(validUsername, validAmount)) {
             std::cout << "⚠️ Somthing went wrong. Try again later" << std::endl;
         }
-        std::cout << "✅ Your transfer has been confirmed." << std::endl;
+        std::cout << std::endl;
+        std::cout << "********************************************" << std::endl;
+        std::cout << "*                                          *" << std::endl;
+        std::cout << "*  ✅ Your transfer has been confirmed.    *" << std::endl;
+        std::cout << "*                                          *" << std::endl;
+        std::cout << "********************************************" << std::endl;
+        std::cout << std::endl;
     }
 
     void MenuAction::displayWalletDashboard() {

@@ -1,7 +1,7 @@
 #ifndef USER_H
 #define USER_H
 
-#include "../role/role.h"
+#include "../utils/role/role.h"
 #include <string>
 
 namespace data {
