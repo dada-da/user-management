@@ -7,14 +7,22 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
-#include <iomanip>
 #include <vector>
 #include <algorithm>
 
 #include "../../utils/list.h"
+#include "../../utils/date_time.h"
 #include "user_data.h"
 
 namespace db_user {
+    const std::string UserData::filePath = "../database/users.csv";
+
+    int UserData::lastId = 0;
+
+    int UserData::getNewId() {
+        return ++lastId;
+    }
+
     void UserData::loadFromFile() {
         std::ifstream file(filePath);
 
@@ -34,6 +42,10 @@ namespace db_user {
             data::User user = parseLine(line);
             users.insert(user);
         }
+
+        const data::User lastUser = users.getDataAt(users.getSize() - 1).value();
+
+        setLastId(lastUser.getId());
 
         file.close();
     }
@@ -78,12 +90,24 @@ namespace db_user {
     }
 
     void UserData::create(const data::User &user) {
-        //TO DO
+        data::User newUser = user;
+
+        newUser.setId(getNewId());
+
+        const std::string currentTime = utils::DateTime::getCurrentTimestamp();
+        newUser.setCreatedAt(currentTime);
+        newUser.setUpdatedAt(currentTime);
+
+        users.insert(newUser);
+
+        saveToFile();
     }
 
     bool UserData::update(const data::User &user) {
         for (int i = 0; i < users.getSize(); i++) {
             const std::optional<data::User> currentUser = users.getDataAt(i);
+            const std::string currentTime = utils::DateTime::getCurrentTimestamp();
+
             if (currentUser && currentUser->getId() == user.getId()) {
                 data::User updatedUser = *currentUser;
                 updatedUser.setName(user.getName());
@@ -92,6 +116,7 @@ namespace db_user {
                 updatedUser.setDob(user.getDob());
                 updatedUser.setPassword(user.getPassword());
                 updatedUser.setSalt(user.getSalt());
+                updatedUser.setUpdatedAt(currentTime);
 
                 users.setDataAt(i, updatedUser);
 
@@ -110,16 +135,6 @@ namespace db_user {
     std::optional<data::User> UserData::findUserById(int id) {
         //TO DO
         return std::nullopt;
-    }
-
-    const std::string UserData::filePath = "./database/users.csv";
-
-    std::string UserData::getCurrentTimestamp() {
-        const auto now = std::chrono::system_clock::now();
-        const auto now_c = std::chrono::system_clock::to_time_t(now);
-        std::stringstream ss;
-        ss << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S");
-        return ss.str();
     }
 
     std::vector<data::User> UserData::search(const std::string &keyword) {

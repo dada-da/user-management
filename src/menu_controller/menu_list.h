@@ -23,6 +23,7 @@ namespace menu {
         REGISTER,
         EXIT,
         TRANSFER_POINTS,
+        DEPOSIT_POINTS,
         LOGOUT,
         VIEW_PROFILE,
         UPDATE_PROFILE,
@@ -66,7 +67,7 @@ namespace menu {
         {
             {1, "📋 Account Detail", ActionType::ACCOUNT_DETAIL},
             {2, "💸 Transfer Points", ActionType::TRANSFER_POINTS},
-            {3, "➕ Deposit Points", ActionType::TRANSFER_POINTS},
+            {3, "➕ Deposit Points", ActionType::DEPOSIT_POINTS},
             {5, "📈 Points History", ActionType::POINTS_HISTORY},
             {4, "🔓 Logout", ActionType::LOGOUT},
             {0, "🚪 Exit", ActionType::EXIT}

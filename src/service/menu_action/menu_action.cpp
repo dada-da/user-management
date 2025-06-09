@@ -4,10 +4,13 @@
 
 #include <iostream>
 #include <iomanip>
+#include <optional>
 #include "menu_action.h"
 #include "../../utils/password_handler.h"
 #include "../../utils/validator/validator.h"
 #include "../../user_management/user_management.h"
+#include "../../utils/date_time.h"
+#include "../../utils/formatter.h"
 #include "../../utils/print/print_data.h"
 
 namespace menu {
@@ -26,6 +29,51 @@ namespace menu {
 
         try {
             user_mgmt::UserManagement::getInstance()->login(validUsername, validPassword);
+        } catch (const std::exception &e) {
+            throw std::runtime_error(e.what());
+        }
+
+        return true;
+    }
+
+    bool MenuAction::registerUser() {
+        std::string validUsername;
+        bool isValidUsername = false;
+
+        while (!isValidUsername) {
+            validUsername = input::Validator::getValidUserName();
+
+
+            const std::optional<data::User> userData = userDatabase->findUserByUsername(validUsername);
+
+            if (userData.has_value()) {
+                std::cout << "\n❌ Username " << validUsername << " already exists." << std::endl;
+                continue;
+            }
+
+            if (validUsername.empty()) {
+                return false;
+            }
+
+            isValidUsername = true;
+        }
+
+
+        const std::string validPassword = input::Validator::getPassword();
+
+        if (validPassword.empty()) {
+            return false;
+        }
+
+        const std::string name = utils::Formatter::formatForStorage(input::Validator::getValidName());
+
+        try {
+            const std::string newSalt = pw_util::PasswordHandler::generateSalt();
+            const std::string newHash = pw_util::PasswordHandler::getHashPassword(validPassword, newSalt);
+
+            const auto newUser = data::User(validUsername, newHash, newSalt, UserRoles::CUSTOMER, name);
+
+            userDatabase->create(newUser);
         } catch (const std::exception &e) {
             throw std::runtime_error(e.what());
         }

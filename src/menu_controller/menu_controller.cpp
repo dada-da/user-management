@@ -75,7 +75,7 @@ namespace menu {
                             return;
                         }
 
-                        std::cout << "✅ Logged in successfully!" << std::endl;
+                        std::cout << "\n✅ Logged in successfully!" << std::endl;
 
                         const auto userManager = user_mgmt::UserManagement::getInstance();
 
@@ -89,7 +89,16 @@ namespace menu {
                     }
                     break;
                 case ActionType::REGISTER:
-                    //TO DO
+                    try {
+                        bool isRegisted = pMenuAction->registerUser();
+
+                        if (isRegisted) {
+                            std::cout << "\n✅ Register successfully!" << std::endl;
+                        }
+                        setCurrentMenu(MenuId::MAIN_MENU);
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::EXIT:
                     exit();
