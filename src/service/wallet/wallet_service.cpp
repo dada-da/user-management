@@ -67,5 +67,5 @@ long long WalletService::getBalance() {
 std::string WalletService::getFormattedBalance() {
     initWallet();
 
-    return Formatter::formatCurrency(wallet->getBalance());
+    return utils::Formatter::formatCurrency(wallet->getBalance());
 }

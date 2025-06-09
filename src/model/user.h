@@ -47,6 +47,21 @@ namespace data {
               createdAt(createdAt), updatedAt(updatedAt) {
         }
 
+        User(
+            const std::string &username,
+            const std::string &password,
+            const std::string &salt,
+            const std::string &role,
+            const std::string &name
+        )
+            : username(username), passwordHash(password), salt(salt), role(role), name(name) {
+            this->otpId = "null";
+            this->phoneNumber = "null";
+            this->email = "null";
+            this->dob = "null";
+            this->active = true;
+        }
+
         void setRole(const std::string &role) {
             this->role = role;
         }

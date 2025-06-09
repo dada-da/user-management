@@ -45,6 +45,7 @@ set(SOURCES
         src/service/wallet/interface_wallet_service.h
         src/utils/formatter.h
         src/model/wallet.h
+        src/utils/date_time.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
