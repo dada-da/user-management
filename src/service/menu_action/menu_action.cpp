@@ -74,6 +74,10 @@ namespace menu {
             const auto newUser = data::User(validUsername, newHash, newSalt, UserRoles::CUSTOMER, name);
 
             userDatabase->create(newUser);
+
+            constexpr int DEFAULT_BALANCE = 100;
+
+            walletService->create(newUser.getUsername(), DEFAULT_BALANCE);
         } catch (const std::exception &e) {
             throw std::runtime_error(e.what());
         }
@@ -102,7 +106,7 @@ namespace menu {
 
             std::cout << "\n                   GENERAL INFORMATION         " << std::endl;
             std::cout << "------------------------------------------------------------" << std::endl;
-            std::cout << "👤 Name: " << std::left << user.getName() << std::endl;
+            std::cout << "👤 Name: " << std::left << utils::Formatter::formatForDisplay(user.getName()) << std::endl;
             std::cout << "🏷️ Username: " << std::left << user.getUsername() << std::endl;
             std::cout << "🎯 Role: " << std::left << (user.isAdmin() ? "👑 Administrator" : "👤 Customer") << std::endl;
             if (!user.isAdmin()) {
@@ -352,5 +356,81 @@ namespace menu {
 
     void MenuAction::displayWalletDashboard() {
         walletService->displayWalletDashboard();
+    }
+
+    void MenuAction::displayPointHistory() {
+    }
+
+    bool MenuAction::createUser() {
+        std::string validUsername;
+        bool isValidUsername = false;
+
+        while (!isValidUsername) {
+            validUsername = input::Validator::getValidUserName();
+
+
+            const std::optional<data::User> userData = userDatabase->findUserByUsername(validUsername);
+
+            if (userData.has_value()) {
+                std::cout << "\n❌ Username " << validUsername << " already exists." << std::endl;
+                continue;
+            }
+
+            if (validUsername.empty()) {
+                return false;
+            }
+
+            isValidUsername = true;
+        }
+
+
+        const std::string validPassword = input::Validator::getPassword();
+
+        if (validPassword.empty()) {
+            return false;
+        }
+
+        const std::string name = utils::Formatter::formatForStorage(input::Validator::getValidName("Enter name:"));
+
+        std::string line;
+        bool isAdmin = false;
+
+        while (true) {
+            std::cout << "Choose (1 = 👑 Admin, 2 = 👤 Customer): ";
+            std::string line;
+            std::getline(std::cin, line);
+            std::stringstream ss(line);
+            int choice;
+            if (ss >> choice && (choice == 1 || choice == 2)) {
+                isAdmin = choice == 1;
+                break;
+            }
+            std::cout << "❌ Invalid input. Try again.\n";
+        }
+
+        try {
+            const std::string newSalt = pw_util::PasswordHandler::generateSalt();
+            const std::string newHash = pw_util::PasswordHandler::getHashPassword(validPassword, newSalt);
+
+            std::string role = UserRoles::CUSTOMER;
+
+            if (isAdmin) {
+                role = UserRoles::ADMIN;
+            }
+
+            const auto newUser = data::User(validUsername, newHash, newSalt, role, name);
+
+            userDatabase->create(newUser);
+
+            if (!isAdmin) {
+                constexpr int DEFAULT_BALANCE = 100;
+
+                walletService->create(newUser.getUsername(), DEFAULT_BALANCE);
+            }
+        } catch (const std::exception &e) {
+            throw std::runtime_error(e.what());
+        }
+
+        return true;
     }
 }

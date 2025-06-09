@@ -29,6 +29,10 @@ namespace menu {
         virtual bool transfer() = 0;
 
         virtual void displayWalletDashboard() = 0;
+
+        virtual void displayPointHistory() = 0;
+
+        virtual bool createUser() = 0;
     };
 }
 

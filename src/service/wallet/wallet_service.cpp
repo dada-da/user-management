@@ -6,6 +6,7 @@
 #include "wallet_service.h"
 
 #include "../../repository/wallet_data/wallet_data.h"
+#include "../../model/wallet.h"
 #include "../../utils/print/print_data.h"
 #include "../../utils/formatter.h"
 
@@ -69,4 +70,8 @@ std::string WalletService::getFormattedBalance() {
     initWallet();
 
     return utils::Formatter::formatCurrency(wallet->getBalance());
+}
+
+bool WalletService::create(const std::string &username, const long long value) {
+    return walletData->create(username, value);
 }

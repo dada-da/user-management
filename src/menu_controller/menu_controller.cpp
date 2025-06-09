@@ -166,7 +166,11 @@ namespace menu {
                     }
                     break;
                 case ActionType::CREATE_USER:
-                    //TO DO
+                    try {
+                        pMenuAction->createUser();
+                    } catch (const std::exception &e) {
+                        std::cerr << e.what() << std::endl;
+                    }
                     break;
                 case ActionType::DELETE_USER:
                     //TO DO

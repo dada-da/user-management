@@ -9,18 +9,19 @@
 
 namespace data {
     class Wallet {
-        int id;
+        long long id;
         std::string username;
         long long balance;
 
     public:
         Wallet() = default;
 
-        Wallet(const int id, std::string username, const long long balance) : id(id), username(std::move(username)),
-                                                                              balance(balance) {
+        Wallet(const long long id, std::string username, const long long balance) : id(id),
+            username(std::move(username)),
+            balance(balance) {
         }
 
-        int getId() const {
+        long long getId() const {
             return id;
         }
 
@@ -40,7 +41,7 @@ namespace data {
             this->balance = balance;
         }
 
-        void setId(const int id) {
+        void setId(const long long id) {
             this->id = id;
         }
     };

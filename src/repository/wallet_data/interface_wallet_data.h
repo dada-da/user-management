@@ -21,6 +21,8 @@ namespace data {
         virtual std::optional<Wallet> find(const std::string &username) = 0;
 
         virtual bool update(const std::string &username, long long balance) = 0;
+
+        virtual bool create(const std::string &username, long long value) = 0;
     };
 }
 

@@ -87,4 +87,4 @@ namespace db_user {
     };
 }
 
-#endif //USER_DATA_H
+#endif // USER_DATA_H

@@ -20,9 +20,8 @@ namespace data {
         static long long lastTransactionId;
         static const std::string TRANSACTION_LOG_DATA_FILE_PATH;
 
-        static std::string generateId(const std::string &username) {
-            const std::string currentDateTime = utils::DateTime::getCurrentTimestamp();
-            return currentDateTime + username;
+        static void setLastTransactionId(const long long id) {
+            lastTransactionId = id;
         }
 
         static std::optional<TransactionLog> parseLine(const std::string &line, const std::string &username) {
@@ -57,10 +56,6 @@ namespace data {
     public:
         static long long getNewTransactionId() {
             return ++lastTransactionId;
-        }
-
-        static void setLastTransactionId(long long id) {
-            lastTransactionId = id;
         }
 
         void saveToFile() override;

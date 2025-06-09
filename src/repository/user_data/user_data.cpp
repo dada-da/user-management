@@ -50,20 +50,19 @@ namespace db_user {
         file.close();
     }
 
-
     void UserData::saveToFile() {
         std::ofstream file(filePath);
         if (!file.is_open()) {
             throw std::runtime_error("Error opening file for writing");
         }
 
-        file <<
-                "id,name,username,points,phone_number,otp_id,role,password_hash,salt,email,dob,created_at,updated_at,active\n";
+        file << "id,name,username,phone_number,otp_id,role,password_hash,salt,email,dob,created_at,updated_at,active\n";
 
         for (int i = 0; i < users.getSize(); i++) {
             const std::optional<data::User> userData = users.getDataAt(i);
 
-            if (userData == std::nullopt || !userData.has_value()) continue;
+            if (userData == std::nullopt || !userData.has_value())
+                continue;
 
             file << userData->getId() << ","
                     << userData->getName() << ","
@@ -77,7 +76,7 @@ namespace db_user {
                     << userData->getEmail() << ","
                     << userData->getDob() << ","
                     << userData->getCreatedAt() << ","
-                    << userData->getUpdatedAt() << ",";
+                    << userData->getUpdatedAt();
 
             if (i < users.getSize() - 1) {
                 file << "\n";
@@ -128,12 +127,12 @@ namespace db_user {
     }
 
     bool UserData::deleteUser(std::string username) {
-        //TO DO
+        // TO DO
         return false;
     }
 
     std::optional<data::User> UserData::findUserById(int id) {
-        //TO DO
+        // TO DO
         return std::nullopt;
     }
 

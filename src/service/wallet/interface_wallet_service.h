@@ -18,6 +18,8 @@ public:
     virtual long long getBalance() = 0;
 
     virtual std::string getFormattedBalance() = 0;
+
+    virtual bool create(const std::string &username, long long value) = 0;
 };
 
 #endif //INTERFACE_WALLET_SERVICE_H

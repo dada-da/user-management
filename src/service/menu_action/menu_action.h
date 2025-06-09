@@ -41,6 +41,10 @@ namespace menu {
         bool transfer() override;
 
         bool registerUser() override;
+
+        void displayPointHistory() override;
+
+        bool createUser() override;
     };
 }
 

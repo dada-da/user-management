@@ -56,6 +56,8 @@ public:
 
     bool transfer(const std::string &receivedUsername, long long value) override;
 
+    bool create(const std::string &username, long long value) override;
+
     long long getBalance() override;
 
     std::string getFormattedBalance() override;
