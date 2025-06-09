@@ -22,7 +22,7 @@ namespace menu {
             : userDatabase(userDatabase), authService(authService), walletService(walletService) {
         }
 
-        void login() override;
+        bool login() override;
 
         void logout() override;
 
@@ -38,7 +38,7 @@ namespace menu {
 
         void displayWalletDashboard() override;
 
-        void transfer() override;
+        bool transfer() override;
     };
 }
 

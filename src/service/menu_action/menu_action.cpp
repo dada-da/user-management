@@ -11,12 +11,18 @@
 #include "../../utils/print/print_data.h"
 
 namespace menu {
-    void MenuAction::login() {
-        std::string usernameValue, passwordValue;
-
+    bool MenuAction::login() {
         const std::string validUsername = input::Validator::getValidUserName();
 
+        if (validUsername.empty()) {
+            return false;
+        }
+
         const std::string validPassword = input::Validator::getPassword();
+
+        if (validPassword.empty()) {
+            return false;
+        }
 
         try {
             user_mgmt::UserManagement::getInstance()->login(validUsername, validPassword);
@@ -24,7 +30,7 @@ namespace menu {
             throw std::runtime_error(e.what());
         }
 
-        std::cout << "Logged in successfully!" << std::endl;
+        return true;
     }
 
     void MenuAction::logout() {
@@ -260,7 +266,7 @@ namespace menu {
         }
     }
 
-    void MenuAction::transfer() {
+    bool MenuAction::transfer() {
         const auto userManager = user_mgmt::UserManagement::getInstance();
 
         const long long currentBalance = walletService->getBalance();
@@ -271,15 +277,20 @@ namespace menu {
             validUsername = input::Validator::getValidUserName("👤 Enter received username: ");
             if (validUsername == userManager->getUserName()) {
                 std::cout << "⚠️ Cannot transfer for yourself" << std::endl;
-                return;
+                return false;
             }
             isValid = true;
         }
 
         const long long validAmount = input::Validator::getAmountInput(currentBalance);
 
+        if (validAmount == -1) {
+            return false;
+        }
+
         if (!walletService->transfer(validUsername, validAmount)) {
             std::cout << "⚠️ Somthing went wrong. Try again later" << std::endl;
+            return false;
         }
         std::cout << std::endl;
         std::cout << "********************************************" << std::endl;
@@ -288,6 +299,7 @@ namespace menu {
         std::cout << "*                                          *" << std::endl;
         std::cout << "********************************************" << std::endl;
         std::cout << std::endl;
+        return true;
     }
 
     void MenuAction::displayWalletDashboard() {

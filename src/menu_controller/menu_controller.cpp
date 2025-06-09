@@ -68,8 +68,17 @@ namespace menu {
             switch (actionType) {
                 case ActionType::LOGIN:
                     try {
-                        pMenuAction->login();
+                        bool isLoggedIn = pMenuAction->login();
+
+                        if (!isLoggedIn) {
+                            setCurrentMenu(MenuId::MAIN_MENU);
+                            return;
+                        }
+
+                        std::cout << "✅ Logged in successfully!" << std::endl;
+
                         const auto userManager = user_mgmt::UserManagement::getInstance();
+
                         if (userManager->isAdmin()) {
                             setCurrentMenu(MenuId::ADMIN_MENU);
                         } else {
@@ -95,7 +104,12 @@ namespace menu {
                     break;
                 case ActionType::TRANSFER_POINTS:
                     try {
-                        pMenuAction->transfer();
+                        bool isTransferred = pMenuAction->transfer();
+
+                        if (!isTransferred) {
+                            setCurrentMenu(MenuId::CUSTOMER_MENU);
+                            return;
+                        }
                         setCurrentMenu(MenuId::BACK_BUTTON);
                     } catch (const std::exception &e) {
                         std::cerr << e.what() << std::endl;

@@ -10,7 +10,7 @@ namespace menu {
     public:
         virtual ~IMenuAction() = default;
 
-        virtual void login() = 0;
+        virtual bool login() = 0;
 
         virtual void logout() = 0;
 
@@ -24,7 +24,7 @@ namespace menu {
 
         virtual void changePassword() = 0;
 
-        virtual void transfer() = 0;
+        virtual bool transfer() = 0;
 
         virtual void displayWalletDashboard() = 0;
     };

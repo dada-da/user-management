@@ -58,12 +58,12 @@ namespace input {
         bool isValid = false;
 
         while (!isValid) {
+            std::cout << "\nPress enter to go back." << std::endl;
             std::cout << label;
             std::getline(std::cin, username);
 
             if (username.empty()) {
-                std::cout << "❌ Username cannot be empty!\n";
-                continue;
+                return username;
             }
 
             if (isValidUserName(username)) {
@@ -78,12 +78,12 @@ namespace input {
         std::string password;
 
         while (true) {
+            std::cout << "\nPress enter to go back." << std::endl;
             std::cout << label;
             std::getline(std::cin, password);
 
             if (password.empty()) {
-                std::cout << "❌ Password cannot be empty!\n";
-                continue;
+                return password;
             }
 
             if (password.length() < 4) {
@@ -103,8 +103,10 @@ namespace input {
     }
 
     long long Validator::getAmountInput(const long long maxAmount) {
+        std::string input;
         long long amount;
         while (true) {
+            std::cout << "\nPress enter to go back." << std::endl;
             std::cout << "\n💰 " << "Enter amount";
 
             if (maxAmount > 0) {
@@ -112,16 +114,21 @@ namespace input {
             }
             std::cout << ": ";
 
-            if (std::cin >> amount) {
-                if (amount > 0 && (maxAmount < 0 || amount <= maxAmount)) {
-                    std::cin.ignore();
-                    return amount;
+            if (std::getline(std::cin, input)) {
+                if (input.empty()) {
+                    return -1;
                 }
-                std::cout << "❌ Invalid amount. Please try again." << std::endl;
-            } else {
-                std::cout << "❌ Please enter a valid number." << std::endl;
-                std::cin.clear();
-                std::cin.ignore();
+
+                try {
+                    amount = std::stoll(input);
+
+                    if (amount > 0 && (maxAmount < 0 || amount <= maxAmount)) {
+                        return amount;
+                    }
+                    std::cout << "❌ Invalid amount. Please try again." << std::endl;
+                } catch (const std::exception&) {
+                    std::cout << "❌ Please enter a valid number." << std::endl;
+                }
             }
         }
     }
