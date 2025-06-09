@@ -8,7 +8,7 @@
 #include <mutex>
 #include <memory>
 
-#include "../user/user.h"
+#include "../model/user.h"
 #include "../service/authentication/interface_authentication_service.h"
 #include "../utils/password_handler.h"
 

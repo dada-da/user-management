@@ -5,7 +5,7 @@
 #ifndef INTERFACE_USER_DATA_H
 #define INTERFACE_USER_DATA_H
 
-#include "../user/user.h"
+#include "../../model/user.h"
 #include <optional>
 
 namespace db_user {

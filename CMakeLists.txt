@@ -18,13 +18,13 @@ set(SOURCES
         src/utils/role/role.h
         src/menu_controller/menu_controller.cpp
         src/menu_controller/menu_controller.h
-        src/user_data/user_data.h
-        src/user_data/user_data.cpp
+        src/repository/user_data/user_data.h
+        src/repository/user_data/user_data.cpp
+        src/repository/user_data/interface_user_data.h
         src/utils/list.h
         src/service/authentication/authentication_service.cpp
         src/service/authentication/authentication_service.h
         src/utils/password_handler.h
-        src/user_data/interface_user_data.h
         src/service/authentication/interface_authentication_service.h
         src/menu_controller/menu_list.h
         src/service/menu_action/menu_action.cpp
@@ -44,6 +44,7 @@ set(SOURCES
         src/service/wallet/wallet_service.h
         src/service/wallet/interface_wallet_service.h
         src/utils/formatter.h
+        src/model/wallet.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

@@ -6,8 +6,8 @@
 #define USER_DATA_H
 
 #include "./interface_user_data.h"
-#include "../utils/list.h"
-#include "../user/user.h"
+#include "../../utils/list.h"
+#include "../../model/user.h"
 
 #include <optional>
 #include <iostream>

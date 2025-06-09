@@ -6,7 +6,7 @@
 #define INTERFACE_AUTHENTICATION_SERVICE_H
 
 #include <string>
-#include "../../user/user.h"
+#include "../../model/user.h"
 
 namespace auth {
     enum class AuthResult {

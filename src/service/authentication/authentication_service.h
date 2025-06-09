@@ -5,8 +5,8 @@
 #ifndef AUTHENTICATION_SERVICE_H
 #define AUTHENTICATION_SERVICE_H
 
-#include "../../user_data/user_data.h"
-#include "../../user/user.h"
+#include "../../repository//user_data/user_data.h"
+#include "../../model/user.h"
 #include "./interface_authentication_service.h"
 
 namespace auth {
