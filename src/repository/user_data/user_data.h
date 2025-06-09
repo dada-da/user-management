@@ -18,6 +18,7 @@ namespace db_user {
     class UserData final : public IUserDatabase {
         List<data::User> users;
         static const std::string filePath;
+        static int lastId;
 
         static int convertStringToInt(const std::string &str) {
             constexpr int DEFAULT_VALUE = 0;
@@ -61,7 +62,11 @@ namespace db_user {
             return user;
         }
 
-        static std::string getCurrentTimestamp();
+        static void setLastId(const int id) {
+            lastId = id;
+        }
+
+        static int getNewId();
 
     public:
         void loadFromFile() override;
@@ -78,7 +83,7 @@ namespace db_user {
 
         std::optional<data::User> findUserById(int id) override;
 
-        std::vector<data::User> search(const std::string& keyword) override;
+        std::vector<data::User> search(const std::string &keyword) override;
     };
 }
 

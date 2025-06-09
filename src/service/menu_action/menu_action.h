@@ -39,6 +39,8 @@ namespace menu {
         void displayWalletDashboard() override;
 
         bool transfer() override;
+
+        bool registerUser() override;
     };
 }
 

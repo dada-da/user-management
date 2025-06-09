@@ -12,6 +12,8 @@ namespace menu {
 
         virtual bool login() = 0;
 
+        virtual bool registerUser() = 0;
+
         virtual void logout() = 0;
 
         virtual void viewAccountDetail() = 0;
