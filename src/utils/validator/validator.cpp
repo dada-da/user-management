@@ -52,6 +52,77 @@ namespace input {
         return true;
     }
 
+    bool Validator::isValidName(const std::string &name) {
+        if (name.length() < NameRules::minLength || name.length() > NameRules::maxLength) {
+            std::cout << "❌ Name must be between " << NameRules::minLength
+                    << " and " << NameRules::maxLength << " characters.\n";
+            return false;
+        }
+
+        if constexpr (!NameRules::allowLeadingTrailingSpaces) {
+            if (!name.empty() && (name.front() == ' ' || name.back() == ' ')) {
+                std::cout << "❌ Name cannot start or end with spaces.\n";
+                return false;
+            }
+        }
+
+        bool hasConsecutiveSpaces = false;
+        bool hasValidChar = false;
+
+        for (size_t i = 0; i < name.length(); i++) {
+            const char c = name[i];
+
+            if (!std::isalpha(c) && c != ' ') {
+                std::cout << "❌ Name can only contain letters and spaces.\n";
+                return false;
+            }
+
+            if (c == ' ') {
+                if (i > 0 && name[i - 1] == ' ' && !NameRules::allowMultipleSpaces) {
+                    hasConsecutiveSpaces = true;
+                }
+            } else {
+                hasValidChar = true;
+            }
+        }
+
+        if (hasConsecutiveSpaces) {
+            std::cout << "❌ Name cannot contain multiple consecutive spaces.\n";
+            return false;
+        }
+
+        if (!hasValidChar) {
+            std::cout << "❌ Name must contain at least one letter.\n";
+            return false;
+        }
+
+        return true;
+    }
+
+    std::string Validator::getValidName(const std::string &label) {
+        std::string name;
+        bool isValid = false;
+
+        while (!isValid) {
+            std::cout << "\nPress enter to go back." << std::endl;
+            std::cout << label;
+            std::getline(std::cin, name);
+
+            if (name.empty()) {
+                return name;
+            }
+
+            name = utils::Formatter::normalizeSpaces(name);
+
+            if (isValidName(name)) {
+                std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+                isValid = true;
+            }
+        }
+
+        return name;
+    }
+
 
     std::string Validator::getValidUserName(const std::string &label) {
         std::string username;
@@ -110,7 +181,7 @@ namespace input {
             std::cout << "\n💰 " << "Enter amount";
 
             if (maxAmount > 0) {
-                std::cout << " (Max: " << Formatter::formatCurrency(maxAmount) << ")";
+                std::cout << " (Max: " << utils::Formatter::formatCurrency(maxAmount) << ")";
             }
             std::cout << ": ";
 
@@ -126,7 +197,7 @@ namespace input {
                         return amount;
                     }
                     std::cout << "❌ Invalid amount. Please try again." << std::endl;
-                } catch (const std::exception&) {
+                } catch (const std::exception &) {
                     std::cout << "❌ Please enter a valid number." << std::endl;
                 }
             }

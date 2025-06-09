@@ -5,6 +5,7 @@
 #include "menu_display/menu_display.h"
 #include "repository/user_data/user_data.h"
 #include "repository/wallet_data/wallet_data.h"
+#include "repository/transaction_data/transaction_data.h"
 #include "service/authentication/authentication_service.h"
 #include "service/menu_action/menu_action.h"
 #include "service/wallet/wallet_service.h"
@@ -27,7 +28,9 @@ int main() {
 
     user_mgmt::UserManagement::getInstance(&authService);
 
-    auto walletService = WalletService(&walletData);
+    auto transactionData = data::TransactionData();
+
+    auto walletService = WalletService(&walletData, &transactionData);
 
     auto menuActionService = menu::MenuAction(&userData, &authService, &walletService);
 

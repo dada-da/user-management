@@ -46,6 +46,11 @@ set(SOURCES
         src/utils/formatter.h
         src/model/wallet.h
         src/utils/date_time.h
+        src/model/transaction_log.h
+        src/repository/transaction_data/interface_transaction_data.h
+        src/repository/transaction_data/transaction_data.cpp
+        src/repository/transaction_data/transaction_data.h
+        src/utils/convert.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

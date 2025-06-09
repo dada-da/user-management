@@ -35,6 +35,7 @@ bool WalletService::transfer(const std::string &receivedUsername, const long lon
         return false;
     }
 
+    transactionLog->create(wallet->getUsername(), receivedUsername, value);
 
     walletData->saveToFile();
 

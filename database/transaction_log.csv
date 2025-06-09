@@ -1,1 +1,2 @@
-id,username,receiver_username,amount,status,created_at
+id,sender_username,receiver_username,amount,status,created_at
+1,customer,johnny,2400,,2025-06-09 15:27:39

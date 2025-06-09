@@ -9,6 +9,8 @@
 #include "wallet_data.h"
 
 namespace data {
+    const std::string WalletData::WALLET_DATA_FILE_PATH = "../database/wallet.csv";
+
     void WalletData::loadFromFile() {
         std::ifstream file(WALLET_DATA_FILE_PATH);
 
@@ -67,6 +69,4 @@ namespace data {
         wallet->setBalance(balance);
         return true;
     }
-
-    const std::string WalletData::WALLET_DATA_FILE_PATH = "../database/wallet.csv";
 }

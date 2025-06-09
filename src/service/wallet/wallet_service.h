@@ -11,12 +11,14 @@
 
 #include "../../repository/wallet_data/interface_wallet_data.h"
 #include "../../user_management/user_management.h"
+#include "../../repository/transaction_data/interface_transaction_data.h"
 
 #include "interface_wallet_service.h"
 
 class WalletService final : public IWalletService {
     data::IWalletData *walletData;
     std::optional<data::Wallet> wallet;
+    data::ITransactionData *transactionLog;
 
     void initWallet() {
         if (wallet.has_value()) return;
@@ -45,7 +47,8 @@ class WalletService final : public IWalletService {
 
 public:
     explicit WalletService(
-        data::IWalletData *walletData) : walletData(walletData) {
+        data::IWalletData *walletData, data::ITransactionData *transactionLog) : walletData(walletData),
+                                                                               transactionLog(transactionLog) {
         wallet = std::nullopt;
     }
 
