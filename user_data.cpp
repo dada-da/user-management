@@ -138,7 +138,7 @@ namespace db_user {
             auto userOpt = users.getDataAt(i);
             if (userOpt.has_value()) {
                 const auto &user = userOpt.value();
-                // Tìm theo username hoặc email (không phân biệt hoa thường)
+                // Tim theo username hoac email (khong phan biet hoa thuong)
                 std::string uname = user.getUsername();
                 std::string email = user.getEmail();
                 std::string key = keyword;
